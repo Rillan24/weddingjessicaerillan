@@ -14,13 +14,100 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      gifts: {
+        Row: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          price: number | null
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          price?: number | null
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          price?: number | null
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      rsvps: {
+        Row: {
+          attending: boolean
+          contact: string | null
+          created_at: string
+          dietary: string | null
+          guests: number
+          id: string
+          message: string | null
+          name: string
+        }
+        Insert: {
+          attending?: boolean
+          contact?: string | null
+          created_at?: string
+          dietary?: string | null
+          guests?: number
+          id?: string
+          message?: string | null
+          name: string
+        }
+        Update: {
+          attending?: boolean
+          contact?: string | null
+          created_at?: string
+          dietary?: string | null
+          guests?: number
+          id?: string
+          message?: string | null
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_gift: {
+        Args: { _gift_id: string; _name: string }
+        Returns: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          price: number | null
+          sort_order: number
+          title: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "gifts"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
