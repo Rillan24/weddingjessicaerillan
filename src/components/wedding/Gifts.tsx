@@ -46,9 +46,16 @@ export function Gifts() {
 
   const claim = useMutation({
     mutationFn: async ({ id, giver }: { id: string; giver: string }) => {
-      const { error } = await supabase.rpc("claim_gift", { _gift_id: id, _name: giver });
+      const { data, error } = await supabase
+        .from("gifts")
+        .update({ claimed_by: giver.trim(), claimed_at: new Date().toISOString() })
+        .eq("id", id)
+        .is("claimed_by", null)
+        .select("id");
       if (error) throw error;
+      if (!data?.length) throw new Error("Presente indisponível");
     },
+
     onSuccess: () => {
       toast.success("Obrigado! Presente reservado com carinho.");
       setSelected(null);
