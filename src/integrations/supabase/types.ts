@@ -88,26 +88,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      claim_gift: {
-        Args: { _gift_id: string; _name: string }
-        Returns: {
-          claimed_at: string | null
-          claimed_by: string | null
-          created_at: string
-          description: string | null
-          id: string
-          image_url: string | null
-          price: number | null
-          sort_order: number
-          title: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "gifts"
-          isOneToOne: true
-          isSetofReturn: false
-        }
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
