@@ -61,9 +61,13 @@ export function Rsvp() {
             className="mt-12 space-y-6 bg-background p-8"
             onSubmit={(e) => {
               e.preventDefault();
-              if (!name.trim()) return toast.error("Informe seu nome");
+              if (!name.trim()) {
+                toast.error("Informe seu nome");
+                return;
+              }
               submit.mutate();
             }}
+
           >
             <div className="space-y-2">
               <Label htmlFor="rsvp-name">Nome completo</Label>
