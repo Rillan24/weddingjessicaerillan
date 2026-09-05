@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { wedding } from "@/lib/wedding-data";
-import brideBw from "@/assets/bride-bw.jpg";
-import bouquets from "@/assets/bouquets.jpg";
-import groomBw from "@/assets/groom-bw.jpg";
+import coupleRailsAsset from "@/assets/couple-rails.jpg.asset.json";
+import coupleBalloonAsset from "@/assets/couple-balloon.jpg.asset.json";
+import brideRingAsset from "@/assets/bride-ring.jpg.asset.json";
 import wreath from "@/assets/wreath.png";
 
 function useCountdown(target: string) {
@@ -92,23 +92,23 @@ export function Hero() {
 
         <div className="relative">
           <img
-            src={bouquets}
-            alt="Damas de honra com buquês de peônias brancas"
+            src={coupleBalloonAsset.url}
+            alt="Jessica e Rillan em frente a um balão colorido, mostrando a aliança"
             width={1200}
             height={900}
             className="ml-auto w-[88%] object-cover shadow-sm"
           />
           <img
-            src={brideBw}
-            alt="Retrato em preto e branco da noiva"
+            src={coupleRailsAsset.url}
+            alt="Rillan beijando Jessica na testa sobre os trilhos"
             width={900}
             height={1200}
             loading="lazy"
             className="absolute -bottom-8 left-0 w-[42%] border-8 border-background object-cover shadow-md"
           />
           <img
-            src={groomBw}
-            alt="Retrato em preto e branco do noivo"
+            src={brideRingAsset.url}
+            alt="Jessica sorrindo com buquê de rosas e a aliança"
             width={900}
             height={1200}
             loading="lazy"
