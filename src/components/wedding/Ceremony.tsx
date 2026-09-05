@@ -12,20 +12,20 @@ const details = [
 export function Ceremony() {
   return (
     <>
-      <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
-        <img
-          src={coupleDinner.url}
-          alt="Jessica e Rillan em um jantar especial a dois"
-          loading="lazy"
-          className="absolute inset-0 size-full object-cover object-[center_35%]"
-        />
-        <div className="absolute inset-0 bg-foreground/40" />
-        <div className="relative flex h-full items-center justify-center px-5">
-          <p className="max-w-2xl text-center font-serif text-3xl italic leading-snug text-cream md:text-4xl">
+      <section className="bg-cream py-20">
+        <div className="mx-auto grid max-w-5xl items-center gap-10 px-5 md:grid-cols-[0.8fr_1fr]">
+          <img
+            src={coupleDinner.url}
+            alt="Jessica e Rillan em um jantar especial a dois"
+            loading="lazy"
+            className="mx-auto w-full max-w-sm object-contain"
+          />
+          <p className="text-center font-serif text-3xl italic leading-snug text-sage-deep md:text-left md:text-4xl">
             “Que a nossa história continue sendo escrita todos os dias, com você.”
           </p>
         </div>
       </section>
+
 
       <section id="cerimonia" className="bg-sage/40 py-28">
         <div className="mx-auto max-w-5xl px-5">
