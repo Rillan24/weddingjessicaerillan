@@ -22,7 +22,13 @@ export function Nav() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <a href="#topo" className="font-serif text-xl tracking-[0.25em] text-foreground">
+        <a
+          href="#topo"
+          className={cn(
+            "font-serif text-xl tracking-[0.25em] transition-colors",
+            scrolled ? "text-foreground" : "text-cream",
+          )}
+        >
           {wedding.monogram}
         </a>
 
@@ -31,7 +37,12 @@ export function Nav() {
             <a
               key={l.href}
               href={l.href}
-              className="text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-sage-deep"
+              className={cn(
+                "text-xs uppercase tracking-[0.16em] transition-colors",
+                scrolled
+                  ? "text-muted-foreground hover:text-sage-deep"
+                  : "text-cream/85 hover:text-cream",
+              )}
             >
               {l.label}
             </a>
@@ -42,11 +53,12 @@ export function Nav() {
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden text-foreground"
+          className={cn("md:hidden", scrolled || open ? "text-foreground" : "text-cream")}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
+
 
       {open && (
         <nav className="border-t border-border bg-background px-5 pb-6 pt-2 md:hidden">
