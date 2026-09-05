@@ -23,17 +23,29 @@ export function Gallery() {
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {photos.map((p) => (
-            <figure key={p.alt} className="flex aspect-[4/5] items-center justify-center bg-cream p-3">
-              <img
-                src={p.src}
-                alt={p.alt}
-                loading="lazy"
-                className="max-h-full max-w-full object-contain"
-              />
+            <figure
+              key={p.alt}
+              className="relative aspect-[4/5] bg-cream p-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-sage/20"
+            >
+              {/* outer frame line */}
+              <div className="absolute inset-2 border border-gold/30 pointer-events-none" />
+              {/* inner mat */}
+              <div className="relative flex h-full w-full items-center justify-center bg-white p-4">
+                <img
+                  src={p.src}
+                  alt={p.alt}
+                  loading="lazy"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              {/* corner ornaments */}
+              <span className="absolute top-1.5 left-1.5 h-3 w-3 border-t border-l border-sage-deep/40" />
+              <span className="absolute top-1.5 right-1.5 h-3 w-3 border-t border-r border-sage-deep/40" />
+              <span className="absolute bottom-1.5 left-1.5 h-3 w-3 border-b border-l border-sage-deep/40" />
+              <span className="absolute bottom-1.5 right-1.5 h-3 w-3 border-b border-r border-sage-deep/40" />
             </figure>
-
           ))}
         </div>
       </div>
