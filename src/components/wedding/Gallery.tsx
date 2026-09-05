@@ -1,17 +1,23 @@
-import galleryOne from "@/assets/gallery-1.jpg";
-import galleryTwo from "@/assets/gallery-2.jpg";
-import galleryThree from "@/assets/gallery-3.jpg";
-import bouquets from "@/assets/bouquets.jpg";
-import venue from "@/assets/venue.jpg";
-import brideBw from "@/assets/bride-bw.jpg";
+import coupleRails from "@/assets/couple-rails.jpg.asset.json";
+import coupleBalloon from "@/assets/couple-balloon.jpg.asset.json";
+import couplePark from "@/assets/couple-park.jpg.asset.json";
+import brideLeaf from "@/assets/bride-leaf.jpg.asset.json";
+import coupleDinner from "@/assets/couple-dinner.jpg.asset.json";
+import coupleBasket from "@/assets/couple-basket.jpg.asset.json";
+import coupleKiss from "@/assets/couple-kiss.jpg.asset.json";
+import brideRing from "@/assets/bride-ring.jpg.asset.json";
+import coupleNight from "@/assets/couple-night.jpg.asset.json";
 
 const photos = [
-  { src: galleryOne, alt: "Casal no vinhedo ao entardecer", span: "row-span-2" },
-  { src: venue, alt: "Cerimônia à beira do lago", span: "" },
-  { src: galleryTwo, alt: "Mesa posta com eucalipto e velas", span: "" },
-  { src: bouquets, alt: "Buquês de peônias brancas", span: "" },
-  { src: brideBw, alt: "Retrato da noiva em preto e branco", span: "row-span-2" },
-  { src: galleryThree, alt: "Casal caminhando entre eucaliptos", span: "" },
+  { src: coupleRails.url, alt: "Rillan beijando Jessica na testa sobre os trilhos", span: "row-span-2" },
+  { src: coupleBalloon.url, alt: "Jessica e Rillan em frente ao balão colorido", span: "" },
+  { src: brideRing.url, alt: "Jessica mostrando a aliança com o buquê de rosas", span: "" },
+  { src: coupleKiss.url, alt: "O beijo no dia do pedido de casamento", span: "" },
+  { src: brideLeaf.url, alt: "Jessica segurando uma folha de outono", span: "row-span-2" },
+  { src: coupleDinner.url, alt: "Jessica e Rillan em um jantar", span: "" },
+  { src: coupleBasket.url, alt: "Jessica e Rillan dentro do cesto do balão", span: "" },
+  { src: couplePark.url, alt: "Jessica e Rillan na praça em um dia de sol", span: "" },
+  { src: coupleNight.url, alt: "Jessica e Rillan em uma noite juntos", span: "" },
 ];
 
 export function Gallery() {
