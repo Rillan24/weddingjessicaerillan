@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { wedding } from "@/lib/wedding-data";
-import coupleRailsAsset from "@/assets/couple-rails.jpg.asset.json";
-import coupleBalloonAsset from "@/assets/couple-balloon.jpg.asset.json";
-import brideRingAsset from "@/assets/bride-ring.jpg.asset.json";
-import wreath from "@/assets/wreath.png";
+import coupleRails from "@/assets/couple-rails.jpg.asset.json";
 
 function useCountdown(target: string) {
   const [left, setLeft] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
@@ -31,90 +28,56 @@ export function Hero() {
   const left = useCountdown(wedding.date);
 
   return (
-    <section id="topo" className="relative overflow-hidden bg-blush/60 pt-28 pb-16">
+    <section id="topo" className="relative min-h-[100svh] w-full overflow-hidden">
       <img
-        src={wreath}
-        alt=""
-        aria-hidden
-        width={800}
-        height={800}
-        className="pointer-events-none absolute -left-24 top-40 w-72 opacity-40"
+        src={coupleRails.url}
+        alt="Jessica e Rillan abraçados sobre os trilhos do trem"
+        className="absolute inset-0 size-full object-cover object-[center_30%]"
       />
-      <img
-        src={wreath}
-        alt=""
-        aria-hidden
-        width={800}
-        height={800}
-        className="pointer-events-none absolute -right-28 bottom-0 w-80 opacity-30"
-      />
+      <div className="absolute inset-0 bg-foreground/45" />
 
-      <div className="relative mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-[1fr_1.15fr] md:items-center">
-        <div className="fade-up">
-          <p className="eyebrow">Vamos nos casar</p>
-          <h1 className="mt-5 font-serif text-5xl italic leading-[1.05] text-foreground sm:text-6xl md:text-7xl">
-            {wedding.brideFirst}
-            <span className="not-italic"> & </span>
-            {wedding.groomFirst}
-          </h1>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            {wedding.dateLabel} · {wedding.timeLabel} — {wedding.venue}, {wedding.city}.
-            Vem celebrar com a gente o começo dessa história para sempre.
-          </p>
-
-          {left && (
-            <dl className="mt-8 flex gap-6">
-              {[
-                { v: left.d, l: "dias" },
-                { v: left.h, l: "horas" },
-                { v: left.m, l: "min" },
-                { v: left.s, l: "seg" },
-              ].map((item) => (
-                <div key={item.l}>
-                  <dt className="font-serif text-3xl text-sage-deep">
-                    {String(item.v).padStart(2, "0")}
-                  </dt>
-                  <dd className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-                    {item.l}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          )}
-
-          <a
-            href="#confirmar"
-            className="mt-9 inline-block border border-sage-deep px-8 py-3 text-[0.7rem] uppercase tracking-[0.24em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
-          >
-            Confirmar presença
-          </a>
+      <div className="fade-up relative mx-auto flex min-h-[100svh] max-w-3xl flex-col items-center justify-center px-5 text-center">
+        <p className="text-[0.7rem] uppercase tracking-[0.4em] text-cream/90">Vamos nos casar</p>
+        <h1 className="mt-6 font-serif text-6xl leading-[0.95] text-cream sm:text-7xl md:text-8xl">
+          {wedding.brideFirst}
+          <span className="mx-3 italic">&</span>
+          {wedding.groomFirst}
+        </h1>
+        <div className="mt-8 flex items-center gap-4 text-[0.7rem] uppercase tracking-[0.3em] text-cream/85">
+          <span className="h-px w-10 bg-cream/50" />
+          {wedding.dateLabel}
+          <span className="h-px w-10 bg-cream/50" />
         </div>
+        <p className="mt-4 text-sm text-cream/80">
+          {wedding.venue} · {wedding.city}
+        </p>
 
-        <div className="relative">
-          <img
-            src={coupleBalloonAsset.url}
-            alt="Jessica e Rillan em frente a um balão colorido, mostrando a aliança"
-            width={1200}
-            height={900}
-            className="ml-auto w-[88%] object-cover shadow-sm"
-          />
-          <img
-            src={coupleRailsAsset.url}
-            alt="Rillan beijando Jessica na testa sobre os trilhos"
-            width={900}
-            height={1200}
-            loading="lazy"
-            className="absolute -bottom-8 left-0 w-[42%] border-8 border-background object-cover shadow-md"
-          />
-          <img
-            src={brideRingAsset.url}
-            alt="Jessica sorrindo com buquê de rosas e a aliança"
-            width={900}
-            height={1200}
-            loading="lazy"
-            className="absolute -right-2 -bottom-14 hidden w-[30%] border-8 border-background object-cover shadow-md sm:block"
-          />
-        </div>
+        {left && (
+          <dl className="mt-12 flex gap-8 sm:gap-12">
+            {[
+              { v: left.d, l: "dias" },
+              { v: left.h, l: "horas" },
+              { v: left.m, l: "min" },
+              { v: left.s, l: "seg" },
+            ].map((item) => (
+              <div key={item.l}>
+                <dt className="font-serif text-4xl text-cream">
+                  {String(item.v).padStart(2, "0")}
+                </dt>
+                <dd className="mt-1 text-[0.6rem] uppercase tracking-[0.25em] text-cream/70">
+                  {item.l}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        <a
+          href="#confirmar"
+          className="mt-12 inline-block border border-cream/70 px-9 py-3.5 text-[0.7rem] uppercase tracking-[0.28em] text-cream transition-colors hover:bg-cream hover:text-foreground"
+        >
+          Confirmar presença
+        </a>
       </div>
     </section>
   );
