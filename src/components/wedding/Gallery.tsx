@@ -25,14 +25,15 @@ export function Gallery() {
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {photos.map((p) => (
-            <figure key={p.alt} className="bg-cream p-3">
+            <figure key={p.alt} className="flex aspect-[4/5] items-center justify-center bg-cream p-3">
               <img
                 src={p.src}
                 alt={p.alt}
                 loading="lazy"
-                className="mx-auto max-h-[520px] w-full object-contain"
+                className="max-h-full max-w-full object-contain"
               />
             </figure>
+
           ))}
         </div>
       </div>
