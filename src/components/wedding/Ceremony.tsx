@@ -1,6 +1,6 @@
 import { MapPin, Clock, Shirt, Car } from "lucide-react";
 import { wedding, timeline } from "@/lib/wedding-data";
-import venue from "@/assets/venue.jpg";
+import coupleDinner from "@/assets/couple-dinner.jpg.asset.json";
 
 const details = [
   { icon: MapPin, label: "Local", value: `${wedding.venue} — ${wedding.venueAddress}` },
@@ -12,8 +12,23 @@ const details = [
 export function Ceremony() {
   return (
     <>
-      <section id="cerimonia" className="bg-sage/40 py-24">
-        <div className="mx-auto max-w-6xl px-5">
+      <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
+        <img
+          src={coupleDinner.url}
+          alt="Jessica e Rillan em um jantar especial a dois"
+          loading="lazy"
+          className="absolute inset-0 size-full object-cover object-[center_35%]"
+        />
+        <div className="absolute inset-0 bg-foreground/40" />
+        <div className="relative flex h-full items-center justify-center px-5">
+          <p className="max-w-2xl text-center font-serif text-3xl italic leading-snug text-cream md:text-4xl">
+            “Que a nossa história continue sendo escrita todos os dias, com você.”
+          </p>
+        </div>
+      </section>
+
+      <section id="cerimonia" className="bg-sage/40 py-28">
+        <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
             <p className="eyebrow">Cerimônia e festa</p>
             <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
@@ -21,34 +36,25 @@ export function Ceremony() {
             </h2>
           </div>
 
-          <div className="mt-14 grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-center">
-            <img
-              src={venue}
-              alt="Cerimônia ao ar livre com arco de flores brancas em frente ao lago"
-              width={1400}
-              height={900}
-              loading="lazy"
-              className="w-full object-cover shadow-sm"
-            />
+          <div className="mt-14 bg-background p-8 md:p-12">
+            <ul className="grid gap-8 sm:grid-cols-2">
+              {details.map((d) => (
+                <li key={d.label} className="flex gap-4">
+                  <d.icon className="mt-1 size-4 shrink-0 text-sage-deep" />
+                  <div>
+                    <p className="eyebrow">{d.label}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d.value}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-            <div className="bg-background p-8">
-              <ul className="space-y-6">
-                {details.map((d) => (
-                  <li key={d.label} className="flex gap-4">
-                    <d.icon className="mt-1 size-4 shrink-0 text-sage-deep" />
-                    <div>
-                      <p className="eyebrow">{d.label}</p>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d.value}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
+            <div className="mt-10 text-center">
               <a
                 href={wedding.mapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-8 inline-block border border-sage-deep px-7 py-3 text-[0.7rem] uppercase tracking-[0.24em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
+                className="inline-block border border-sage-deep px-7 py-3 text-[0.7rem] uppercase tracking-[0.24em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
               >
                 Ver no mapa
               </a>
@@ -56,6 +62,7 @@ export function Ceremony() {
           </div>
         </div>
       </section>
+
 
       <section id="programacao" className="bg-background py-24">
         <div className="mx-auto max-w-3xl px-5">
