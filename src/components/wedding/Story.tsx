@@ -1,5 +1,5 @@
-import galleryOne from "@/assets/gallery-1.jpg";
-import galleryThree from "@/assets/gallery-3.jpg";
+import coupleKissAsset from "@/assets/couple-kiss.jpg.asset.json";
+import couplePark from "@/assets/couple-park.jpg.asset.json";
 
 export function Story() {
   return (
@@ -8,16 +8,16 @@ export function Story() {
         <div className="relative">
           <div className="absolute -left-4 -top-6 hidden h-64 w-40 bg-sage/60 md:block" />
           <img
-            src={galleryOne}
-            alt="Casal se abraçando em um vinhedo ao pôr do sol"
+            src={coupleKissAsset.url}
+            alt="Jessica e Rillan se beijando no dia do pedido de casamento"
             width={1000}
             height={1200}
             loading="lazy"
             className="relative w-full object-cover"
           />
           <img
-            src={galleryThree}
-            alt="Casal caminhando de mãos dadas por um caminho de eucaliptos"
+            src={couplePark.url}
+            alt="Jessica e Rillan sorrindo juntos na praça"
             width={1200}
             height={900}
             loading="lazy"
