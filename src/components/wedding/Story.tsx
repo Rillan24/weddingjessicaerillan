@@ -1,49 +1,47 @@
-import coupleKissAsset from "@/assets/couple-kiss.jpg.asset.json";
+import coupleKiss from "@/assets/couple-kiss.jpg.asset.json";
 import couplePark from "@/assets/couple-park.jpg.asset.json";
 
 export function Story() {
   return (
-    <section id="historia" className="relative bg-background py-24">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-2 md:items-center">
+    <section id="historia" className="bg-background py-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 px-5 md:grid-cols-2">
         <div className="relative">
-          <div className="absolute -left-4 -top-6 hidden h-64 w-40 bg-sage/60 md:block" />
+          <div className="absolute -left-5 -top-5 hidden size-40 border border-sage md:block" />
           <img
-            src={coupleKissAsset.url}
+            src={coupleKiss.url}
             alt="Jessica e Rillan se beijando no dia do pedido de casamento"
-            width={1000}
-            height={1200}
             loading="lazy"
-            className="relative w-full object-cover"
+            className="relative aspect-[4/5] w-full object-cover"
           />
           <img
             src={couplePark.url}
             alt="Jessica e Rillan sorrindo juntos na praça"
-            width={1200}
-            height={900}
             loading="lazy"
-            className="relative -mt-20 ml-auto w-2/3 border-8 border-background object-cover shadow-md"
+            className="relative -mt-24 ml-auto hidden aspect-square w-2/5 border-8 border-background object-cover shadow-lg sm:block"
           />
         </div>
 
-        <div>
+        <div className="md:pl-6">
           <p className="eyebrow">Nossa história</p>
           <h2 className="mt-4 font-serif text-4xl leading-tight text-foreground md:text-5xl">
-            Melhor juntos, desde o primeiro café
+            Melhor juntos,
+            <br />
+            desde o primeiro dia
           </h2>
-          <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="mt-8 space-y-5 text-sm leading-loose text-muted-foreground">
             <p>
               A gente se conheceu num sábado qualquer que virou o mais importante de todos.
               Entre conversas que não acabavam e viagens improvisadas, descobrimos que a vida
               fica mais leve quando é dividida.
             </p>
             <p>
-              Foram anos de casa nova, cachorro adotado, sonhos anotados em papel de guardanapo —
-              e agora um sim para dizer na frente de quem a gente ama.
-            </p>
-            <p className="font-serif text-xl italic text-sage-deep">
-              Obrigado por fazer parte da nossa história.
+              Foram anos de planos feitos a dois, risadas fora de hora e sonhos anotados em
+              papel de guardanapo — e agora um sim para dizer na frente de quem a gente ama.
             </p>
           </div>
+          <p className="mt-8 font-serif text-2xl italic text-sage-deep">
+            Obrigado por fazer parte da nossa história.
+          </p>
         </div>
       </div>
     </section>
