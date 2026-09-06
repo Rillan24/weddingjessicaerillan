@@ -18,7 +18,9 @@ export function Nav() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
-        scrolled ? "bg-background/90 backdrop-blur border-b border-border" : "bg-transparent",
+        scrolled
+          ? "border-b border-border bg-background/95 shadow-sm backdrop-blur-md"
+          : "bg-gradient-to-b from-foreground/45 to-transparent",
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
@@ -26,7 +28,7 @@ export function Nav() {
           href="#topo"
           className={cn(
             "font-serif text-xl tracking-[0.25em] transition-colors",
-            scrolled ? "text-foreground" : "text-cream",
+            scrolled ? "text-foreground" : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]",
           )}
         >
           {wedding.monogram}
@@ -40,8 +42,8 @@ export function Nav() {
               className={cn(
                 "text-xs uppercase tracking-[0.16em] transition-colors",
                 scrolled
-                  ? "text-muted-foreground hover:text-sage-deep"
-                  : "text-cream/85 hover:text-cream",
+                  ? "text-foreground/80 hover:text-sage-deep"
+                  : "text-cream hover:text-cream/80 drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
               )}
             >
               {l.label}
@@ -53,7 +55,12 @@ export function Nav() {
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           onClick={() => setOpen((v) => !v)}
-          className={cn("md:hidden", scrolled || open ? "text-foreground" : "text-cream")}
+          className={cn(
+            "md:hidden",
+            scrolled || open
+              ? "text-foreground"
+              : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
+          )}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
@@ -67,7 +74,7 @@ export function Nav() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-xs uppercase tracking-[0.16em] text-muted-foreground"
+              className="block py-3 text-xs uppercase tracking-[0.16em] text-foreground/80"
             >
               {l.label}
             </a>
