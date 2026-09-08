@@ -1,28 +1,28 @@
-// Conteúdo editável do site. Troque os textos de exemplo pelos dados reais.
 export const wedding = {
   brideFirst: "Jessica",
   groomFirst: "Rillan",
   monogram: "J & R",
-  // EXEMPLO: ajuste a data real (formato ISO, horário local)
-  date: "2027-05-15T16:00:00",
-  dateLabel: "15 de maio de 2027",
-  timeLabel: "16h",
-  city: "Campinas, São Paulo",
-  venue: "Fazenda Vista Alegre",
-  venueAddress: "Estrada do Campo, km 12 — Campinas/SP",
-  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Campinas+SP",
-  dressCode: "Traje esporte fino — evite branco e verde sálvia",
+  date: "2026-10-10T11:00:00-03:00",
+  dateLabel: "10 de outubro de 2026",
+  timeLabel: "11h",
+  city: "São Paulo, SP",
+  venue: "Salão do prédio",
+  venueAddress: "Rua Dona Ana Neri, 721 — Cambuci, São Paulo/SP",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP",
+  mapEmbedUrl:
+    "https://www.google.com/maps?q=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP&output=embed",
+  dressCode: "Fique à vontade — preferencialmente, traje esporte fino.",
   pixKey: "jessicaerillan@email.com",
   quote:
     "Não importa onde estejamos no mundo, estou sempre em casa quando estou com você.",
 };
 
 export const timeline = [
-  { time: "15h30", title: "Recepção dos convidados", text: "Bem-vindo com welcome drink no jardim." },
-  { time: "16h", title: "Cerimônia", text: "No gramado, em frente ao lago." },
-  { time: "17h", title: "Coquetel e fotos", text: "Música ao vivo e brindes." },
-  { time: "19h", title: "Jantar", text: "Menu servido no salão." },
-  { time: "21h", title: "Festa", text: "Pista aberta até o último convidado." },
+  { time: "11h00", title: "Recepção dos convidados", text: "Chegada e acolhimento dos convidados." },
+  { time: "12h00", title: "Cerimônia", text: "No salão do prédio." },
+  { time: "12h30", title: "Coquetel e fotos", text: "Coquetel, música e registro desse momento especial." },
+  { time: "13h00", title: "Almoço", text: "Almoço servido no salão." },
 ];
 
 export const party = [
@@ -59,15 +59,15 @@ export const faqs = [
   },
   {
     q: "Até quando posso confirmar presença?",
-    a: "Pedimos que a confirmação seja feita até 30 dias antes da data, para organizarmos o jantar com carinho.",
+    a: "Pedimos que a confirmação seja feita até 30 dias antes da data, para organizarmos o almoço com carinho.",
   },
   {
     q: "Terá estacionamento?",
-    a: "Sim, estacionamento gratuito com manobrista na entrada da fazenda.",
+    a: "As informações sobre estacionamento serão definidas mais próximo do dia.",
   },
   {
     q: "Qual o traje?",
-    a: "Esporte fino. Como a cerimônia é no gramado, sugerimos saltos mais largos ou sapatilhas.",
+    a: "Fique à vontade. Se preferir uma sugestão, indicamos traje esporte fino.",
   },
   {
     q: "Posso postar fotos?",

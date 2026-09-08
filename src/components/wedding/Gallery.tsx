@@ -73,7 +73,11 @@ export function Gallery() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [prev, next]);
 
-  const current = photos[index] ?? photos[0];
+  const current = photos[index];
+
+  if (!current) {
+    return null;
+  }
 
   return (
     <section id="galeria" className="bg-background py-28">

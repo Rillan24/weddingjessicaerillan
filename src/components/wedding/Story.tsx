@@ -35,7 +35,7 @@ export function Story() {
               fica mais leve quando é dividida.
             </p>
             <p>
-              Foram anos de planos feitos a dois, risadas fora de hora e sonhos anotados em
+              Fooi o ano de planos feitos a dois, risadas fora de hora e sonhos anotados em
               papel de guardanapo — e agora um sim para dizer na frente de quem a gente ama.
             </p>
           </div>

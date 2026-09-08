@@ -6,7 +6,7 @@ const details = [
   { icon: MapPin, label: "Local", value: `${wedding.venue} — ${wedding.venueAddress}` },
   { icon: Clock, label: "Horário", value: `${wedding.dateLabel}, às ${wedding.timeLabel}` },
   { icon: Shirt, label: "Traje", value: wedding.dressCode },
-  { icon: Car, label: "Estacionamento", value: "Gratuito, com manobrista na entrada" },
+  { icon: Car, label: "Estacionamento", value: "Informações a definir mais próximo do dia" },
 ];
 
 export function Ceremony() {
@@ -30,7 +30,7 @@ export function Ceremony() {
       <section id="cerimonia" className="bg-sage/40 py-28">
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
-            <p className="eyebrow">Cerimônia e festa</p>
+            <p className="eyebrow">Cerimônia e recepção</p>
             <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
               Onde tudo vai acontecer
             </h2>
@@ -49,7 +49,17 @@ export function Ceremony() {
               ))}
             </ul>
 
-            <div className="mt-10 text-center">
+            <div className="mt-10 overflow-hidden border border-border bg-muted">
+              <iframe
+                src={wedding.mapEmbedUrl}
+                title={`Mapa de ${wedding.venueAddress}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-80 w-full md:h-96"
+              />
+            </div>
+
+            <div className="mt-6 text-center">
               <a
                 href={wedding.mapsUrl}
                 target="_blank"
