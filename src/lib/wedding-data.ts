@@ -59,7 +59,7 @@ export const faqs = [
   },
   {
     q: "Até quando posso confirmar presença?",
-    a: "Pedimos que a confirmação seja feita até 30 dias antes da data, para organizarmos o jantar com carinho.",
+    a: "Pedimos que a confirmação seja feita até 30 dias antes da data, para organizarmos o almoço com carinho.",
   },
   {
     q: "Terá estacionamento?",
