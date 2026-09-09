@@ -13,7 +13,7 @@ export const wedding = {
   mapEmbedUrl:
     "https://www.google.com/maps?q=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP&output=embed",
   dressCode: "Fique à vontade — preferencialmente, traje esporte fino.",
-  pixKey: "jessicaerillan@email.com",
+  pixKey: "1197661-1429",
   quote:
     "Não importa onde estejamos no mundo, estou sempre em casa quando estou com você.",
 };
