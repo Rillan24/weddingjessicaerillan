@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { wedding } from "@/lib/wedding-data";
 import coupleRails from "@/assets/couple-rails.jpg.asset.json";
+import { assetUrl } from "@/lib/asset-url";
 
 function useCountdown(target: string) {
   const [left, setLeft] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
@@ -30,7 +31,7 @@ export function Hero() {
   return (
     <section id="topo" className="relative min-h-[100svh] w-full overflow-hidden">
       <img
-        src={coupleRails.url}
+        src={assetUrl(coupleRails.url)}
         alt="Jessica e Rillan abraçados sobre os trilhos do trem"
         className="absolute inset-0 size-full object-cover object-[center_30%]"
       />
