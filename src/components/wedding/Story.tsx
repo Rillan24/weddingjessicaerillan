@@ -1,6 +1,7 @@
 import coupleKiss from "@/assets/couple-kiss.jpg.asset.json";
 import couplePark from "@/assets/couple-park.jpg.asset.json";
 import { Reveal } from "./Reveal";
+import { assetUrl } from "@/lib/asset-url";
 
 export function Story() {
   return (
@@ -9,13 +10,13 @@ export function Story() {
         <Reveal className="relative">
           <div className="absolute -left-5 -top-5 hidden size-40 rounded-2xl border border-sage md:block" />
           <img
-            src={coupleKiss.url}
+            src={assetUrl(coupleKiss.url)}
             alt="Jessica e Rillan se beijando no dia do pedido de casamento"
             loading="lazy"
             className="relative aspect-[4/5] w-full rounded-2xl object-cover shadow-[0_28px_60px_-40px_rgba(0,0,0,0.55)]"
           />
           <img
-            src={couplePark.url}
+            src={assetUrl(couplePark.url)}
             alt="Jessica e Rillan sorrindo juntos na praça"
             loading="lazy"
             className="relative -mt-24 ml-auto hidden aspect-square w-2/5 rounded-2xl border-8 border-background object-cover shadow-lg sm:block"
