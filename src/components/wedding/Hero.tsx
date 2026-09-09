@@ -50,7 +50,7 @@ export function Hero() {
           <span className="h-px w-10 bg-cream/50" />
         </div>
         <p className="mt-4 text-sm text-cream/80">
-          {wedding.venue} · {wedding.city}
+          {wedding.venue}
         </p>
 
         {left && (
