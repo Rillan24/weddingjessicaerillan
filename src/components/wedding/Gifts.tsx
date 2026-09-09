@@ -54,16 +54,14 @@ export function Gifts() {
   });
 
   const storedGifts = Array.isArray(gifts) ? gifts : [];
-  const visibleGifts: Gift[] = storedGifts.length
-    ? storedGifts
-    : giftCopy.map((copy, index) => ({
-        id: "display-" + copy.price + "-" + index,
-        title: copy.title,
-        description: null,
-        price: copy.price,
-        claimed_at: null,
-      }));
-  const usingDisplayFallback = storedGifts.length === 0;
+  const visibleGifts: Gift[] = giftCopy.map((copy, index) => ({
+    id: storedGifts[index]?.id ?? "display-" + copy.price + "-" + index,
+    title: copy.title,
+    description: null,
+    price: copy.price,
+    claimed_at: storedGifts[index]?.claimed_at ?? null,
+  }));
+  const usingDisplayFallback = storedGifts.length < giftCopy.length;
 
   const claim = useMutation({
     mutationFn: async ({ id, giver }: { id: string; giver: string }) => {
