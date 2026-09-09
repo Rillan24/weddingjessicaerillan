@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 import { assetUrl } from "@/lib/asset-url";
 
 const details = [
-  { icon: MapPin, label: "Local", value: `${wedding.venue} — ${wedding.venueAddress}` },
+  { icon: MapPin, label: "Local", value: wedding.venueAddress },
   { icon: Clock, label: "Horário", value: `${wedding.dateLabel}, às ${wedding.timeLabel}` },
   { icon: Shirt, label: "Traje", value: wedding.dressCode },
   { icon: Car, label: "Estacionamento", value: "Informações a definir mais próximo do dia" },
