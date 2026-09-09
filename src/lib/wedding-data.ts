@@ -25,33 +25,6 @@ export const timeline = [
   { time: "13h00", title: "Almoço", text: "Almoço servido no salão." },
 ];
 
-export const party = [
-  { name: "Marina Alves", role: "Madrinha" },
-  { name: "Carolina Dias", role: "Madrinha" },
-  { name: "Beatriz Nunes", role: "Madrinha" },
-  { name: "Lucas Ferreira", role: "Padrinho" },
-  { name: "Thiago Ramos", role: "Padrinho" },
-  { name: "Pedro Martins", role: "Padrinho" },
-];
-
-export const stays = [
-  {
-    name: "Hotel Vila das Acácias",
-    text: "A 10 min do local, com tarifa especial no código JR2027.",
-    url: "https://www.google.com/search?q=hotel+campinas",
-  },
-  {
-    name: "Pousada Recanto Verde",
-    text: "Opção aconchegante em meio à mata, a 15 min da fazenda.",
-    url: "https://www.google.com/search?q=pousada+campinas",
-  },
-  {
-    name: "Ibis Campinas Centro",
-    text: "Alternativa econômica no centro, a 25 min de carro.",
-    url: "https://www.google.com/search?q=ibis+campinas",
-  },
-];
-
 export const faqs = [
   {
     q: "Posso levar crianças?",
