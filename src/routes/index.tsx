@@ -4,9 +4,7 @@ import { Nav } from "@/components/wedding/Nav";
 import { Hero } from "@/components/wedding/Hero";
 import { Story } from "@/components/wedding/Story";
 import { Ceremony } from "@/components/wedding/Ceremony";
-import { Party } from "@/components/wedding/Party";
 import { Gallery } from "@/components/wedding/Gallery";
-import { Stay } from "@/components/wedding/Stay";
 import { Gifts } from "@/components/wedding/Gifts";
 import { Rsvp } from "@/components/wedding/Rsvp";
 import { Faq } from "@/components/wedding/Faq";
@@ -37,9 +35,7 @@ function Index() {
       <Hero />
       <Story />
       <Ceremony />
-      <Party />
       <Gallery />
-      <Stay />
       <Gifts />
       <Rsvp />
       <Faq />
