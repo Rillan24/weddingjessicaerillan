@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Nav } from "@/components/wedding/Nav";
+import { BottomNav } from "@/components/wedding/BottomNav";
 import { Hero } from "@/components/wedding/Hero";
 import { Story } from "@/components/wedding/Story";
 import { Ceremony } from "@/components/wedding/Ceremony";
@@ -30,16 +31,19 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="bg-background">
-      <Nav />
-      <Hero />
-      <Story />
-      <Ceremony />
-      <Gallery />
-      <Gifts />
-      <Rsvp />
-      <Faq />
-      <Footer />
-    </main>
+    <>
+      <main className="overflow-x-hidden bg-background pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-0">
+        <Nav />
+        <Hero />
+        <Story />
+        <Ceremony />
+        <Gallery />
+        <Gifts />
+        <Rsvp />
+        <Faq />
+        <Footer />
+      </main>
+      <BottomNav />
+    </>
   );
 }

@@ -153,10 +153,21 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  section[id] {
+    scroll-margin-top: 84px;
   }
 
   h1,
@@ -165,6 +176,12 @@
   h4 {
     font-family: var(--font-serif);
     font-weight: 300;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
@@ -180,6 +197,55 @@
   animation: fade-up 1s ease-out both;
 }
 
+/* Progressive reveal on scroll */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Elevated editorial surface */
+@utility surface {
+  background-color: var(--card);
+  border: 1px solid color-mix(in oklab, var(--sage-deep) 16%, transparent);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--foreground) 5%, transparent),
+    0 18px 40px -28px color-mix(in oklab, var(--sage-deep) 55%, transparent);
+}
+
+@utility press {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0) scale(0.985);
+  }
+}
+
+@utility rule-soft {
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 60%, transparent),
+    transparent
+  );
+  height: 1px;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -190,4 +256,25 @@
     transform: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 
