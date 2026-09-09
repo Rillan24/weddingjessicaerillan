@@ -45,7 +45,7 @@ export function Rsvp() {
             Você vem celebrar com a gente?
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
-            Pedimos que confirme até 30 dias antes da data.
+            Sua confirmação antecipada nos ajuda a cuidar de cada detalhe.
           </p>
         </div>
 
