@@ -20,7 +20,7 @@ type Gift = {
   title: string;
   description: string | null;
   price: number | null;
-  claimed_by: string | null;
+  claimed_at: string | null;
 };
 
 const brl = (value: number) =>
@@ -37,7 +37,7 @@ export function Gifts() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("gifts")
-        .select("id, title, description, price, claimed_by")
+        .select("id, title, description, price, claimed_at")
         .order("sort_order", { ascending: true });
       if (error) throw error;
       return data as Gift[];
@@ -50,7 +50,7 @@ export function Gifts() {
         .from("gifts")
         .update({ claimed_by: giver.trim(), claimed_at: new Date().toISOString() })
         .eq("id", id)
-        .is("claimed_by", null)
+        .is("claimed_at", null)
         .select("id");
       if (error) throw error;
       if (!data?.length) throw new Error("Presente indisponível");
@@ -111,7 +111,7 @@ export function Gifts() {
                   {gift.price ? brl(Number(gift.price)) : "Valor livre"}
                 </p>
                 <div className="mt-6">
-                  {gift.claimed_by ? (
+                  {gift.claimed_at ? (
                     <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
                       Já presenteado
                     </p>
