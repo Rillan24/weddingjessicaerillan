@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { wedding } from "@/lib/wedding-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PixQr } from "./PixQr";
 import {
   Dialog,
   DialogContent,
@@ -23,26 +24,55 @@ type Gift = {
   claimed_at: string | null;
 };
 
+type GiftCopy = {
+  order: number;
+  badge?: string;
+  title: string;
+  price: number;
+};
+
 const brl = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const giftCopy = [
-  { title: "🍷 Jantar romântico dos recém-casados", price: 200 },
-  { title: "🥂 Experiência especial da lua de mel", price: 250 },
-  { title: "🏨 Ajude com nossa hospedagem", price: 300 },
-  { title: "🏖️ Passeio especial do casal", price: 350 },
-  { title: "✈️ Ajude nas passagens", price: 400 },
-  { title: "❤️ Uma diária especial da nossa lua de mel", price: 500 },
+const giftCopy: GiftCopy[] = [
+  { order: 1, badge: "⭐", title: "✈️ Ajuda para nossa Lua de Mel", price: 500 },
+  { order: 2, title: "🍟 Air Fryer para nossa casa", price: 320 },
+  { order: 3, badge: "💝", title: "🛋️ Ajuda para nosso sofá", price: 450 },
+  { order: 4, title: "🍳 Jogo de panelas premium", price: 370 },
+  { order: 5, title: "🏨 Uma diária especial na Lua de Mel", price: 500 },
+  { order: 6, title: "🛏️ Edredom + enxoval do casal", price: 380 },
+  { order: 7, badge: "⭐", title: "🍽️ Aparelho de jantar completo", price: 420 },
+  { order: 8, title: "☕ Cafeteira para nossos cafés juntos", price: 250 },
+  { order: 9, title: "🧺 Ajuda para nossa máquina de lavar", price: 430 },
+  { order: 10, title: "🍷 Jantar romântico dos recém-casados", price: 350 },
+  { order: 11, title: "📺 Ajuda para nossa TV", price: 480 },
+  { order: 12, title: "🍲 Panela de pressão elétrica", price: 350 },
+  { order: 13, badge: "💝", title: "🏠 Ajuda para decorar nosso lar", price: 400 },
+  { order: 14, title: "🍽️ Jogo de jantar para nossa casa", price: 230 },
+  { order: 15, title: "🍖 Churrasqueira para nossa casa", price: 390 },
+  { order: 16, title: "🧹 Aspirador de pó", price: 330 },
+  { order: 17, badge: "⭐", title: "❤️ Presente especial para os noivos", price: 500 },
+  { order: 18, title: "🛏️ Jogo de cama premium", price: 280 },
+  { order: 19, title: "🪑 Ajuda para nossa mesa de jantar", price: 400 },
+  { order: 20, title: "🥂 Kit de taças para momentos especiais", price: 200 },
+  { order: 21, title: "❄️ Ajuda para nossa geladeira", price: 450 },
+  { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
 ];
+
+const pixKey = "1197661-1429";
+const pixRecipient = "Rillahn Pereira da Silva";
 
 export function Gifts() {
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState<Gift | null>(null);
   const [name, setName] = useState("");
+  const [giverPhone, setGiverPhone] = useState("");
+  const [step, setStep] = useState<"details" | "payment" | "success">("details");
   const [copied, setCopied] = useState(false);
 
   const { data: gifts = [], isLoading } = useQuery({
     queryKey: ["gifts"],
+    refetchInterval: 15000,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("gifts")
@@ -61,34 +91,79 @@ export function Gifts() {
     price: copy.price,
     claimed_at: storedGifts[index]?.claimed_at ?? null,
   }));
-  const usingDisplayFallback = storedGifts.length < giftCopy.length;
 
   const claim = useMutation({
-    mutationFn: async ({ id, giver }: { id: string; giver: string }) => {
+    mutationFn: async ({
+      id,
+      giver,
+      phone,
+    }: {
+      id: string;
+      giver: string;
+      phone: string;
+    }) => {
       const { data, error } = await supabase
         .from("gifts")
-        .update({ claimed_by: giver.trim(), claimed_at: new Date().toISOString() })
+        .update({
+          claimed_by: giver.trim() + " · " + phone.trim(),
+          claimed_at: new Date().toISOString(),
+        })
         .eq("id", id)
         .is("claimed_at", null)
         .select("id");
+
       if (error) throw error;
       if (!data?.length) throw new Error("Presente indisponível");
     },
-
     onSuccess: () => {
-      toast.success("Obrigado! Presente reservado com carinho.");
-      setSelected(null);
-      setName("");
+      setStep("payment");
       queryClient.invalidateQueries({ queryKey: ["gifts"] });
     },
-    onError: () => toast.error("Não foi possível reservar. Talvez alguém tenha escolhido antes."),
+    onError: () =>
+      toast.error("Não foi possível registrar este presente. Talvez alguém tenha escolhido antes."),
   });
 
+  const resetDialog = () => {
+    setSelected(null);
+    setName("");
+    setGiverPhone("");
+    setStep("details");
+    setCopied(false);
+  };
+
+  const openGift = (gift: Gift) => {
+    setSelected(gift);
+    setName("");
+    setGiverPhone("");
+    setStep("details");
+    setCopied(false);
+  };
+
+  const continueToPayment = () => {
+    if (!selected) return;
+
+    if (!name.trim() || !giverPhone.trim()) {
+      toast.error("Informe seu nome e telefone para continuar.");
+      return;
+    }
+
+    if (selected.id.startsWith("display-")) {
+      setStep("payment");
+      return;
+    }
+
+    claim.mutate({ id: selected.id, giver: name, phone: giverPhone });
+  };
+
   const copyPix = async () => {
-    await navigator.clipboard.writeText(wedding.pixKey);
-    setCopied(true);
-    toast.success("Chave PIX copiada");
-    window.setTimeout(() => setCopied(false), 2500);
+    try {
+      await navigator.clipboard.writeText(pixKey);
+      setCopied(true);
+      toast.success("Chave PIX copiada");
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      toast.error("Copie a chave PIX exibida na tela.");
+    }
   };
 
   return (
@@ -100,18 +175,8 @@ export function Gifts() {
             Presentear é opcional, sua presença é o essencial
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            Se quiser nos presentear, escolha uma das cotas abaixo. O pagamento é feito via PIX
-            direto para nós.
+            Escolha uma cota, informe seus dados e, em seguida, faça o PIX com carinho.
           </p>
-
-          <button
-            type="button"
-            onClick={copyPix}
-            className="mx-auto mt-6 flex items-center gap-2 border border-sage-deep px-6 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
-          >
-            {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-            Copiar chave PIX
-          </button>
         </div>
 
         {isLoading ? (
@@ -120,37 +185,31 @@ export function Gifts() {
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visibleGifts.map((gift, index) => {
               const copy = giftCopy[index];
-              const present = copy ? { ...gift, ...copy, description: null } : gift;
+              const present = { ...gift, ...copy, description: null };
 
               return (
-                <li key={gift.id} className="flex flex-col bg-background p-7">
-                  <h3 className="font-serif text-2xl text-foreground">{present.title}</h3>
-                  {present.description && (
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {present.description}
-                    </p>
-                  )}
-                  <p className="mt-4 font-serif text-xl text-sage-deep">
-                    {present.price ? brl(Number(present.price)) : "Valor livre"}
-                  </p>
+                <li
+                  key={gift.id}
+                  className="press flex flex-col rounded-[1.5rem] border border-border/70 bg-background p-7 shadow-[0_20px_55px_-38px_rgba(30,47,38,0.7)]"
+                >
+                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    <span>{String(copy.order).padStart(2, "0")}</span>
+                    {copy.badge && <span className="text-base tracking-normal">{copy.badge}</span>}
+                  </div>
+                  <h3 className="mt-5 font-serif text-2xl leading-tight text-foreground">
+                    {present.title}
+                  </h3>
+                  <p className="mt-4 font-serif text-xl text-sage-deep">{brl(present.price)}</p>
                   <div className="mt-6">
-                    {usingDisplayFallback ? (
-                      <button
-                        type="button"
-                        onClick={copyPix}
-                        className="border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
-                      >
-                        Copiar chave PIX
-                      </button>
-                    ) : present.claimed_at ? (
+                    {gift.claimed_at ? (
                       <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
                         Já presenteado
                       </p>
                     ) : (
                       <button
                         type="button"
-                        onClick={() => setSelected(present)}
-                        className="border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
+                        onClick={() => openGift(present)}
+                        className="press min-h-11 rounded-full border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep hover:bg-sage-deep hover:text-primary-foreground"
                       >
                         Quero presentear
                       </button>
@@ -163,31 +222,99 @@ export function Gifts() {
         )}
       </div>
 
-      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="font-serif text-2xl">{selected?.title}</DialogTitle>
-            <DialogDescription>
-              Escreva seu nome para reservarmos essa cota. Depois é só enviar o PIX para{" "}
-              <strong>{wedding.pixKey}</strong>.
-            </DialogDescription>
-          </DialogHeader>
+      <Dialog open={!!selected} onOpenChange={(open) => !open && resetDialog()}>
+        <DialogContent className="max-w-lg">
+          {step === "details" && selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="font-serif text-2xl">Um presente com carinho</DialogTitle>
+                <DialogDescription>
+                  Para registrar esta cota de {brl(Number(selected.price))}, informe seu nome e
+                  telefone. Depois mostraremos o PIX e o QR Code.
+                </DialogDescription>
+              </DialogHeader>
 
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Seu nome"
-            aria-label="Seu nome"
-          />
+              <div className="space-y-4">
+                <Input
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Seu nome completo"
+                  aria-label="Seu nome completo"
+                  autoFocus
+                  required
+                />
+                <Input
+                  value={giverPhone}
+                  onChange={(event) => setGiverPhone(event.target.value)}
+                  placeholder="Seu telefone"
+                  aria-label="Seu telefone"
+                  type="tel"
+                  required
+                />
+              </div>
 
-          <DialogFooter>
-            <Button
-              disabled={!name.trim() || claim.isPending}
-              onClick={() => selected && claim.mutate({ id: selected.id, giver: name })}
-            >
-              {claim.isPending ? "Reservando…" : "Confirmar presente"}
-            </Button>
-          </DialogFooter>
+              <DialogFooter>
+                <Button
+                  disabled={!name.trim() || !giverPhone.trim() || claim.isPending}
+                  onClick={continueToPayment}
+                >
+                  {claim.isPending ? "Registrando…" : "Continuar para o PIX"}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+
+          {step === "payment" && selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="font-serif text-2xl">Seu presente foi registrado</DialogTitle>
+                <DialogDescription>
+                  Obrigado, {name.split(" ")[0] || "querido convidado"}! A cota foi reservada para
+                  você. Agora faça o PIX no valor de {brl(Number(selected.price))}.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid gap-5 rounded-2xl border border-sage/60 bg-sage/10 p-5 sm:grid-cols-[auto_1fr] sm:items-center">
+                <PixQr amount={Number(selected.price)} />
+                <div className="space-y-3 text-sm text-muted-foreground">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Chave PIX</p>
+                    <p className="mt-1 break-all font-medium text-foreground">{pixKey}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Recebedor</p>
+                    <p className="mt-1 font-medium text-foreground">{pixRecipient}</p>
+                  </div>
+                  <Button type="button" variant="outline" onClick={copyPix}>
+                    {copied ? <Check className="mr-2 size-4" /> : <Copy className="mr-2 size-4" />}
+                    Copiar chave PIX
+                  </Button>
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Button onClick={() => setStep("success")}>Já realizei o pagamento</Button>
+              </DialogFooter>
+            </>
+          )}
+
+          {step === "success" && selected && (
+            <>
+              <div className="py-6 text-center">
+                <Heart className="mx-auto size-12 fill-current text-sage-deep" />
+                <DialogTitle className="mt-5 font-serif text-3xl text-sage-deep">
+                  Obrigado por esse carinho!
+                </DialogTitle>
+                <DialogDescription className="mx-auto mt-4 max-w-sm text-base leading-relaxed">
+                  {name.split(" ")[0] || "Querido convidado"}, seu presente foi aceito com muito
+                  carinho. Vocês já fazem parte da nossa história! 😍🥰
+                </DialogDescription>
+              </div>
+              <DialogFooter>
+                <Button onClick={resetDialog}>Concluir</Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </section>
