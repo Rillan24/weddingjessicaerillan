@@ -114,8 +114,15 @@ export function Gallery() {
                   return;
                 }
 
-                const delta = event.changedTouches[0]?.clientX - touchStartX.current;
+                const startX = touchStartX.current;
+                const endX = event.changedTouches[0]?.clientX;
                 touchStartX.current = null;
+
+                if (startX === null || endX === undefined) {
+                  return;
+                }
+
+                const delta = endX - startX;
 
                 if (Math.abs(delta) > 44) {
                   if (delta > 0) {
