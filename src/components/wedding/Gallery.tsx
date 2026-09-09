@@ -6,12 +6,17 @@ import brideLeaf from "@/assets/bride-leaf.jpg.asset.json";
 import coupleBasket from "@/assets/couple-basket.jpg.asset.json";
 import coupleNight from "@/assets/couple-night.jpg.asset.json";
 
+const hostedAsset = (url: string) =>
+  url.startsWith("/__l5e/")
+    ? `https://weddingjessicaerillan.lovable.app${url}`
+    : url;
+
 const photos = [
-  { src: brideLeaf.url, alt: "Jessica segurando uma folha de outono" },
-  { src: coupleBalloon.url, alt: "Jessica e Rillan em frente ao balão colorido" },
-  { src: brideRing.url, alt: "Jessica mostrando a aliança com o buquê de rosas" },
-  { src: coupleBasket.url, alt: "Jessica e Rillan dentro do cesto do balão" },
-  { src: coupleNight.url, alt: "Jessica e Rillan juntos em uma noite especial" },
+  { src: hostedAsset(brideLeaf.url), alt: "Jessica segurando uma folha de outono" },
+  { src: hostedAsset(coupleBalloon.url), alt: "Jessica e Rillan em frente ao balão colorido" },
+  { src: hostedAsset(brideRing.url), alt: "Jessica mostrando a aliança com o buquê de rosas" },
+  { src: hostedAsset(coupleBasket.url), alt: "Jessica e Rillan dentro do cesto do balão" },
+  { src: hostedAsset(coupleNight.url), alt: "Jessica e Rillan juntos em uma noite especial" },
 ];
 
 function Frame({
