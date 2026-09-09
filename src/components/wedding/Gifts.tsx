@@ -26,14 +26,14 @@ type Gift = {
 const brl = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const giftIllustrations: Record<string, string> = {
-  "Jantar romântico na lua de mel": `${import.meta.env.BASE_URL}gifts/gift-honeymoon-dinner.png`,
-  "Passeio de barco ao pôr do sol": `${import.meta.env.BASE_URL}gifts/gift-sunset-boat.png`,
-  "Jogo de panelas": `${import.meta.env.BASE_URL}gifts/gift-cookware.png`,
-  "Cafeteira italiana": `${import.meta.env.BASE_URL}gifts/gift-coffee.png`,
-  "Roupa de cama premium": `${import.meta.env.BASE_URL}gifts/gift-bedding.png`,
-  "Cota livre — o valor que você quiser": `${import.meta.env.BASE_URL}gifts/gift-free-quota.png`,
-};
+const giftCopy = [
+  { title: "🍷 Jantar romântico dos recém-casados", price: 200 },
+  { title: "🥂 Experiência especial da lua de mel", price: 250 },
+  { title: "🏨 Ajude com nossa hospedagem", price: 300 },
+  { title: "🏖️ Passeio especial do casal", price: 350 },
+  { title: "✈️ Ajude nas passagens", price: 400 },
+  { title: "❤️ Uma diária especial da nossa lua de mel", price: 500 },
+];
 
 export function Gifts() {
   const queryClient = useQueryClient();
@@ -108,41 +108,39 @@ export function Gifts() {
           <p className="mt-14 text-center text-sm text-muted-foreground">Carregando presentes…</p>
         ) : (
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {gifts.map((gift) => (
-              <li key={gift.id} className="gift-card flex flex-col bg-background p-7">
-                <div className="gift-card-illustration">
-                  <img
-                    src={giftIllustrations[gift.title] ?? `${import.meta.env.BASE_URL}gifts/gift-free-quota.png`}
-                    alt={`Ilustração: ${gift.title}`}
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="font-serif text-2xl text-foreground">{gift.title}</h3>
-                {gift.description && (
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {gift.description}
-                  </p>
-                )}
-                <p className="mt-4 font-serif text-xl text-sage-deep">
-                  {gift.price ? brl(Number(gift.price)) : "Valor livre"}
-                </p>
-                <div className="mt-6">
-                  {gift.claimed_at ? (
-                    <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-                      Já presenteado
+            {gifts.map((gift, index) => {
+              const copy = giftCopy[index];
+              const present = copy ? { ...gift, ...copy, description: null } : gift;
+
+              return (
+                <li key={gift.id} className="flex flex-col bg-background p-7">
+                  <h3 className="font-serif text-2xl text-foreground">{present.title}</h3>
+                  {present.description && (
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {present.description}
                     </p>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setSelected(gift)}
-                      className="border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
-                    >
-                      Quero presentear
-                    </button>
                   )}
-                </div>
-              </li>
-            ))}
+                  <p className="mt-4 font-serif text-xl text-sage-deep">
+                    {present.price ? brl(Number(present.price)) : "Valor livre"}
+                  </p>
+                  <div className="mt-6">
+                    {present.claimed_at ? (
+                      <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
+                        Já presenteado
+                      </p>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setSelected(present)}
+                        className="border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
+                      >
+                        Quero presentear
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
