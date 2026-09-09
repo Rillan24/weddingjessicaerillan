@@ -2,6 +2,7 @@ import { MapPin, Clock, Shirt, Car } from "lucide-react";
 import { wedding, timeline } from "@/lib/wedding-data";
 import coupleDinner from "@/assets/couple-dinner.jpg.asset.json";
 import { Reveal } from "./Reveal";
+import { assetUrl } from "@/lib/asset-url";
 
 const details = [
   { icon: MapPin, label: "Local", value: `${wedding.venue} — ${wedding.venueAddress}` },
@@ -18,7 +19,7 @@ export function Ceremony() {
           <Reveal>
             <div className="surface mx-auto w-full max-w-sm overflow-hidden p-2">
               <img
-                src={coupleDinner.url}
+                src={assetUrl(coupleDinner.url)}
                 alt="Jessica e Rillan em um jantar especial a dois"
                 loading="lazy"
                 className="w-full rounded-[0.9rem] object-contain"
