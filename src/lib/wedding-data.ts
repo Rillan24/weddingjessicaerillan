@@ -27,12 +27,8 @@ export const timeline = [
 
 export const faqs = [
   {
-    q: "Posso levar crianças?",
-    a: "Amamos as crianças da família, mas a celebração da noite será apenas para adultos. Avise no formulário se precisar de ajuda com babá no local.",
-  },
-  {
     q: "Até quando posso confirmar presença?",
-    a: "Pedimos que a confirmação seja feita até 30 dias antes da data, para organizarmos o almoço com carinho.",
+    a: "Para cuidarmos de cada detalhe com o carinho que esse dia merece, pedimos que confirme sua presença o quanto antes. Temos pouco tempo para concluir a organização.",
   },
   {
     q: "Terá estacionamento?",
