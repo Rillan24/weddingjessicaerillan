@@ -26,6 +26,15 @@ type Gift = {
 const brl = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+const giftIllustrations: Record<string, string> = {
+  "Jantar romântico na lua de mel": `${import.meta.env.BASE_URL}gifts/gift-honeymoon-dinner.png`,
+  "Passeio de barco ao pôr do sol": `${import.meta.env.BASE_URL}gifts/gift-sunset-boat.png`,
+  "Jogo de panelas": `${import.meta.env.BASE_URL}gifts/gift-cookware.png`,
+  "Cafeteira italiana": `${import.meta.env.BASE_URL}gifts/gift-coffee.png`,
+  "Roupa de cama premium": `${import.meta.env.BASE_URL}gifts/gift-bedding.png`,
+  "Cota livre — o valor que você quiser": `${import.meta.env.BASE_URL}gifts/gift-free-quota.png`,
+};
+
 export function Gifts() {
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState<Gift | null>(null);
@@ -100,7 +109,14 @@ export function Gifts() {
         ) : (
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {gifts.map((gift) => (
-              <li key={gift.id} className="flex flex-col bg-background p-7">
+              <li key={gift.id} className="gift-card flex flex-col bg-background p-7">
+                <div className="gift-card-illustration">
+                  <img
+                    src={giftIllustrations[gift.title] ?? `${import.meta.env.BASE_URL}gifts/gift-free-quota.png`}
+                    alt={`Ilustração: ${gift.title}`}
+                    loading="lazy"
+                  />
+                </div>
                 <h3 className="font-serif text-2xl text-foreground">{gift.title}</h3>
                 {gift.description && (
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
