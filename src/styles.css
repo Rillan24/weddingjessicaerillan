@@ -278,3 +278,318 @@
 }
 
 
+
+
+/* Senior product polish: editorial romance with a mobile-app feel */
+:root {
+  --shadow-soft: 0 18px 50px -34px color-mix(in oklab, var(--foreground) 42%, transparent);
+  --shadow-lift: 0 22px 55px -28px color-mix(in oklab, var(--sage-deep) 48%, transparent);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--blush) 55%, transparent), transparent 28rem),
+    radial-gradient(circle at 90% 32%, color-mix(in oklab, var(--sage) 28%, transparent), transparent 30rem),
+    var(--background);
+}
+
+main {
+  isolation: isolate;
+}
+
+section:not(#topo) {
+  position: relative;
+}
+
+section:not(#topo)::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  opacity: 0.55;
+  background-image: radial-gradient(color-mix(in oklab, var(--sage-deep) 12%, transparent) 0.6px, transparent 0.6px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+}
+
+#topo {
+  background: var(--foreground);
+}
+
+#topo::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--foreground) 12%, transparent), transparent 35%, color-mix(in oklab, var(--foreground) 48%, transparent)),
+    radial-gradient(circle at 50% 42%, transparent 0 24%, color-mix(in oklab, var(--foreground) 26%, transparent) 78%);
+}
+
+#topo > img {
+  transform: scale(1.04);
+  animation: hero-breathe 18s ease-in-out infinite alternate;
+  filter: saturate(0.86) contrast(1.03);
+}
+
+#topo > div {
+  z-index: 1;
+}
+
+#topo > div > p:first-child {
+  animation: soft-float 5s ease-in-out infinite;
+  text-shadow: 0 2px 18px color-mix(in oklab, black 35%, transparent);
+}
+
+#topo h1 {
+  text-shadow: 0 12px 36px color-mix(in oklab, black 32%, transparent);
+  letter-spacing: -0.03em;
+}
+
+#topo dl {
+  gap: 0.55rem;
+}
+
+#topo dl > div {
+  min-width: 4.25rem;
+  padding: 0.75rem 0.5rem 0.65rem;
+  border: 1px solid color-mix(in oklab, var(--cream) 28%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 16%, transparent), 0 10px 30px -20px black;
+  backdrop-filter: blur(12px);
+}
+
+#topo dl dt {
+  line-height: 1;
+}
+
+#topo a[href="#confirmar"] {
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--cream) 94%, transparent);
+  border-color: transparent;
+  color: var(--foreground);
+  box-shadow: 0 16px 35px -18px black, inset 0 1px 0 white;
+}
+
+#topo a[href="#confirmar"]:hover {
+  transform: translateY(-3px);
+  background: white;
+  box-shadow: 0 20px 42px -18px black;
+}
+
+#historia img,
+#cerimonia img,
+#galeria figure,
+#galeria figure img {
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 700ms ease, filter 700ms ease;
+}
+
+#historia img:hover,
+#cerimonia .surface:hover img {
+  transform: scale(1.025);
+  filter: saturate(1.04);
+}
+
+#historia .relative > img:first-of-type {
+  box-shadow: var(--shadow-lift);
+}
+
+.surface {
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 450ms ease, border-color 450ms ease;
+}
+
+.surface:hover {
+  border-color: color-mix(in oklab, var(--gold) 42%, var(--border));
+  box-shadow: var(--shadow-lift);
+}
+
+#cerimonia .surface {
+  background:
+    linear-gradient(145deg, color-mix(in oklab, white 80%, transparent), color-mix(in oklab, var(--cream) 72%, transparent)),
+    var(--card);
+}
+
+#cerimonia li {
+  border: 1px solid color-mix(in oklab, var(--sage-deep) 12%, transparent);
+  box-shadow: 0 8px 24px -22px color-mix(in oklab, var(--foreground) 45%, transparent);
+}
+
+#programacao ol > li > div {
+  position: relative;
+  overflow: hidden;
+}
+
+#programacao ol > li > div::after {
+  position: absolute;
+  right: -2.5rem;
+  bottom: -3rem;
+  width: 8rem;
+  height: 8rem;
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+  border-radius: 999px;
+  content: "";
+}
+
+#galeria .mt-14 {
+  gap: 0.6rem;
+}
+
+#galeria figure {
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-lift);
+}
+
+#galeria figure:hover {
+  transform: translateY(-4px) rotate(-0.35deg);
+}
+
+#galeria button[aria-current="true"] {
+  filter: saturate(1.1);
+}
+
+#presentes li {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--sage-deep) 14%, transparent);
+  border-radius: 1.35rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms ease, border-color 400ms ease;
+}
+
+#presentes li::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.2rem;
+  content: "";
+  background: linear-gradient(90deg, var(--sage-deep), var(--gold), var(--blush-deep));
+  opacity: 0.7;
+}
+
+#presentes li:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in oklab, var(--gold) 48%, transparent);
+  box-shadow: var(--shadow-lift);
+}
+
+#presentes button,
+#cerimonia a[href*="google"],
+#topo a[href="#confirmar"] {
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 250ms ease, background-color 250ms ease, color 250ms ease;
+}
+
+#presentes button,
+#cerimonia a[href*="google"] {
+  border-radius: 999px;
+}
+
+#confirmar {
+  background:
+    radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--cream) 48%, transparent), transparent 22rem),
+    color-mix(in oklab, var(--sage) 42%, var(--background));
+}
+
+#confirmar form,
+#confirmar > div > div.mt-12 {
+  border: 1px solid color-mix(in oklab, var(--sage-deep) 18%, transparent);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-lift);
+}
+
+#confirmar form {
+  background: color-mix(in oklab, var(--background) 86%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+#confirmar input,
+#confirmar textarea {
+  min-height: 3rem;
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, white 74%, var(--cream));
+  transition: border-color 250ms ease, box-shadow 250ms ease, background-color 250ms ease;
+}
+
+#confirmar textarea {
+  min-height: 7rem;
+}
+
+#confirmar input:focus,
+#confirmar textarea:focus {
+  background: white;
+  border-color: color-mix(in oklab, var(--sage-deep) 70%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--sage) 48%, transparent);
+}
+
+#confirmar button[type="submit"] {
+  min-height: 3.25rem;
+  border-radius: 999px;
+  box-shadow: 0 16px 34px -20px color-mix(in oklab, var(--sage-deep) 80%, transparent);
+}
+
+#confirmar button[type="submit"]:hover {
+  transform: translateY(-2px);
+}
+
+#faq [data-state="open"] {
+  box-shadow: var(--shadow-lift);
+}
+
+nav[aria-label="Navegação rápida"] {
+  right: 0.75rem;
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  left: 0.75rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--sage-deep) 22%, transparent);
+  border-radius: 1.35rem;
+  box-shadow: 0 18px 45px -25px color-mix(in oklab, var(--foreground) 60%, transparent);
+}
+
+nav[aria-label="Navegação rápida"] ul {
+  padding-inline: 0.35rem;
+}
+
+nav[aria-label="Navegação rápida"] a {
+  min-height: 3.8rem;
+  border-radius: 1rem;
+}
+
+nav[aria-label="Navegação rápida"] a:hover,
+nav[aria-label="Navegação rápida"] a[aria-current="true"] {
+  background: color-mix(in oklab, var(--sage) 34%, transparent);
+}
+
+nav[aria-label="Navegação rápida"] a[aria-current="true"] span:first-child {
+  box-shadow: 0 7px 18px -10px color-mix(in oklab, var(--sage-deep) 90%, transparent);
+}
+
+@keyframes hero-breathe {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.1); }
+}
+
+@keyframes soft-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (min-width: 768px) {
+  nav[aria-label="Navegação rápida"] {
+    right: auto;
+    bottom: 1.5rem;
+    left: 50%;
+    width: min(30rem, calc(100vw - 3rem));
+    transform: translateX(-50%);
+    border-radius: 999px;
+  }
+
+  nav[aria-label="Navegação rápida"] ul {
+    padding-inline: 0.55rem;
+  }
+
+  nav[aria-label="Navegação rápida"] a {
+    min-height: 3.4rem;
+  }
+}
