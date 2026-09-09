@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { assetUrl } from "@/lib/asset-url";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import coupleBalloon from "@/assets/couple-balloon.jpg.asset.json";
 import brideRing from "@/assets/bride-ring.jpg.asset.json";
@@ -6,13 +7,8 @@ import brideLeaf from "@/assets/bride-leaf.jpg.asset.json";
 import coupleBasket from "@/assets/couple-basket.jpg.asset.json";
 import coupleNight from "@/assets/couple-night.jpg.asset.json";
 
-const hostedAsset = (url: string) =>
-  url.startsWith("/__l5e/")
-    ? `https://weddingjessicaerillan.lovable.app${url}`
-    : url;
-
 const photos = [
-  { src: hostedAsset(brideLeaf.url), alt: "Jessica segurando uma folha de outono" },
+  { src: assetUrl(brideLeaf.url), alt: "Jessica segurando uma folha de outono" },
   { src: hostedAsset(coupleBalloon.url), alt: "Jessica e Rillan em frente ao balão colorido" },
   { src: hostedAsset(brideRing.url), alt: "Jessica mostrando a aliança com o buquê de rosas" },
   { src: hostedAsset(coupleBasket.url), alt: "Jessica e Rillan dentro do cesto do balão" },
