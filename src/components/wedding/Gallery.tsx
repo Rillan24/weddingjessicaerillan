@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import coupleBalloon from "@/assets/couple-balloon.jpg.asset.json";
 import brideRing from "@/assets/bride-ring.jpg.asset.json";
@@ -43,6 +43,7 @@ function Frame({
 export function Gallery() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right" | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const goTo = useCallback((nextIndex: number, dir: "left" | "right") => {
     setDirection(dir);
@@ -81,7 +82,7 @@ export function Gallery() {
 
   return (
     <section id="galeria" className="bg-background py-28">
-      <div className="mx-auto max-w-5xl px-5">
+      <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
           <p className="eyebrow">Galeria</p>
           <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
@@ -92,79 +93,93 @@ export function Gallery() {
           </p>
         </div>
 
-        {/* main album viewer */}
-        <div className="mt-14 flex items-center justify-center gap-3 md:gap-6">
-          <button
-            type="button"
-            onClick={prev}
-            aria-label="Foto anterior"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-sage/30 bg-cream text-foreground shadow-sm transition hover:bg-sage/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:h-12 md:w-12"
-          >
-            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
+        <div className="luxury-gallery mt-14">
+          <div className="luxury-gallery-layout">
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Foto anterior"
+              className="luxury-gallery-arrow luxury-gallery-arrow-prev"
+            >
+              <ChevronLeft className="size-5 md:size-6" />
+            </button>
 
-          <div className="relative w-full max-w-2xl overflow-hidden">
-            <Frame className="aspect-[4/5] w-full">
-              <img
-                key={current.src}
-                src={current.src}
-                alt={current.alt}
-                loading="lazy"
-                className={`max-h-full max-w-full object-contain ${
-                  direction ? "animate-fade-slide" : ""
-                }`}
-              />
-            </Frame>
+            <div
+              className="luxury-gallery-stage"
+              onTouchStart={(event) => {
+                touchStartX.current = event.touches[0]?.clientX ?? null;
+              }}
+              onTouchEnd={(event) => {
+                if (touchStartX.current === null) {
+                  return;
+                }
 
-            {/* caption */}
-            <div className="mt-5 text-center">
-              <p className="font-serif text-lg italic text-foreground md:text-xl">
-                {current.alt}
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {index + 1} / {photos.length}
-              </p>
+                const delta = event.changedTouches[0]?.clientX - touchStartX.current;
+                touchStartX.current = null;
+
+                if (Math.abs(delta) > 44) {
+                  if (delta > 0) {
+                    prev();
+                  } else {
+                    next();
+                  }
+                }
+              }}
+            >
+              <div className="luxury-gallery-stage-glow" aria-hidden="true" />
+              <Frame className="luxury-gallery-frame aspect-[4/5] w-full md:aspect-[5/4]">
+                <img
+                  key={current.src}
+                  src={current.src}
+                  alt={current.alt}
+                  loading="eager"
+                  className={`luxury-gallery-image max-h-full max-w-full object-contain ${
+                    direction ? "animate-fade-slide" : ""
+                  }`}
+                />
+              </Frame>
+
+              <div className="luxury-gallery-caption mt-5 text-center" aria-live="polite">
+                <p className="font-serif text-lg italic text-foreground md:text-xl">
+                  {current.alt}
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {index + 1} / {photos.length}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Próxima foto"
+              className="luxury-gallery-arrow luxury-gallery-arrow-next"
+            >
+              <ChevronRight className="size-5 md:size-6" />
+            </button>
+
+            <div className="luxury-gallery-rail" aria-label="Miniaturas da galeria">
+              <div className="luxury-gallery-thumbs">
+                {photos.map((photo, i) => {
+                  const isActive = i === index;
+                  return (
+                    <button
+                      key={photo.src}
+                      type="button"
+                      onClick={() => goTo(i, i > index ? "right" : "left")}
+                      aria-label={`Ver foto ${i + 1}: ${photo.alt}`}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`luxury-gallery-thumb ${isActive ? "is-active" : ""}`}
+                    >
+                      <Frame className="luxury-gallery-thumb-frame aspect-square">
+                        <img src={photo.src} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
+                      </Frame>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Próxima foto"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-sage/30 bg-cream text-foreground shadow-sm transition hover:bg-sage/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:h-12 md:w-12"
-          >
-            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
-        </div>
-
-        {/* thumbnail filmstrip */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 md:gap-4">
-          {photos.map((photo, i) => {
-            const isActive = i === index;
-            return (
-              <button
-                key={photo.src}
-                type="button"
-                onClick={() => goTo(i, i > index ? "right" : "left")}
-                aria-label={`Ver foto ${i + 1}: ${photo.alt}`}
-                aria-current={isActive ? "true" : undefined}
-                className={`relative w-16 md:w-20 transition ${
-                  isActive
-                    ? "scale-105 ring-2 ring-gold ring-offset-2 ring-offset-background"
-                    : "opacity-70 hover:opacity-100"
-                }`}
-              >
-                <Frame className="aspect-square">
-                  <img
-                    src={photo.src}
-                    alt=""
-                    loading="lazy"
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </Frame>
-              </button>
-            );
-          })}
         </div>
       </div>
 
