@@ -750,3 +750,91 @@ html.dark .theme-toggle:hover svg {
 .scroll-progress span {
   animation: nav-glow 3s ease-in-out infinite;
 }
+
+
+/* Dark mode readability fixes */
+.dark {
+  --ring: oklch(0.78 0.11 85);
+}
+
+.dark body,
+.dark main,
+.dark section,
+.dark footer,
+.dark .surface {
+  transition: background-color 450ms ease, color 450ms ease, border-color 450ms ease;
+}
+
+.dark #topo {
+  background: oklch(0.12 0.035 264);
+}
+
+.dark #topo::after {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, black 12%, transparent), transparent 35%, color-mix(in oklab, black 58%, transparent)),
+    radial-gradient(circle at 50% 42%, transparent 0 24%, color-mix(in oklab, black 38%, transparent) 78%);
+}
+
+.dark #topo > img {
+  filter: saturate(0.78) brightness(0.72) contrast(1.08);
+}
+
+.dark #topo dl > div {
+  background: color-mix(in oklab, black 32%, transparent);
+  border-color: color-mix(in oklab, var(--cream) 34%, transparent);
+}
+
+.dark #topo a[href="#confirmar"] {
+  box-shadow: 0 16px 35px -18px black, inset 0 1px 0 color-mix(in oklab, white 24%, transparent);
+}
+
+.dark footer {
+  background: oklch(0.17 0.035 264) !important;
+  border-top: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
+}
+
+.dark footer [class*="text-cream"] {
+  color: oklch(0.94 0.015 90) !important;
+}
+
+.dark [class~="bg-white"] {
+  background-color: color-mix(in oklab, var(--card) 88%, var(--background)) !important;
+}
+
+.dark [class~="bg-muted"] {
+  background-color: color-mix(in oklab, var(--muted) 86%, var(--background)) !important;
+}
+
+.dark [class~="bg-cream/50"],
+.dark [class~="bg-cream/60"] {
+  background-color: color-mix(in oklab, var(--card) 88%, var(--background)) !important;
+}
+
+.dark [class~="text-muted-foreground"] {
+  color: var(--muted-foreground) !important;
+}
+
+.dark [class~="text-sage-deep"] {
+  color: var(--sage-deep) !important;
+}
+
+.dark [class~="border-sage"],
+.dark [class~="border-sage/20"],
+.dark [class~="border-sage/30"] {
+  border-color: color-mix(in oklab, var(--sage-deep) 42%, transparent) !important;
+}
+
+.dark #galeria figure .bg-white {
+  color: var(--foreground);
+}
+
+.dark #confirmar label,
+.dark #confirmar legend {
+  color: var(--foreground);
+}
+
+.dark #confirmar input::placeholder,
+.dark #confirmar textarea::placeholder {
+  color: color-mix(in oklab, var(--muted-foreground) 84%, transparent);
+  opacity: 1;
+}
