@@ -53,6 +53,24 @@ jobs:
           cp -R "$site_dir"/. _site/
           touch _site/.nojekyll
 
+      - name: Normalize GitHub Pages asset paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          prefix = "/weddingjessicaerillan"
+          for path in Path("_site").rglob("*"):
+              if path.suffix not in {".html", ".js", ".css"}:
+                  continue
+              text = path.read_text(encoding="utf-8")
+              text = text.replace('"/assets/', f'"{prefix}/assets/')
+              text = text.replace("'/assets/", f"'{prefix}/assets/")
+              text = text.replace("(/assets/", f"({prefix}/assets/")
+              path.write_text(text, encoding="utf-8")
+          PY
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
