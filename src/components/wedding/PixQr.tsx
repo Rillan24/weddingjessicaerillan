@@ -150,6 +150,23 @@ const alignmentPattern = (modules: (boolean | null)[][], row: number, column: nu
   }
 };
 
+const pixField = (id: string, value: string) =>
+  id + value.length.toString().padStart(2, "0") + value;
+
+const crc16 = (value: string) => {
+  let crc = 0xffff;
+
+  for (let index = 0; index < value.length; index += 1) {
+    crc ^= value.charCodeAt(index) << 8;
+
+    for (let bit = 0; bit < 8; bit += 1) {
+      crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+    }
+  }
+
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+};
+
 const makeQrMatrix = (payload: string) => {
   const modules: (boolean | null)[][] = Array.from({ length: SIZE }, () =>
     Array(SIZE).fill(null),
@@ -269,20 +286,3 @@ export function PixQr({ amount }: PixQrProps) {
     </svg>
   );
 }
-
-const pixField = (id: string, value: string) =>
-  id + value.length.toString().padStart(2, "0") + value;
-
-const crc16 = (value: string) => {
-  let crc = 0xffff;
-
-  for (let index = 0; index < value.length; index += 1) {
-    crc ^= value.charCodeAt(index) << 8;
-
-    for (let bit = 0; bit < 8; bit += 1) {
-      crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
-    }
-  }
-
-  return crc.toString(16).toUpperCase().padStart(4, "0");
-};
