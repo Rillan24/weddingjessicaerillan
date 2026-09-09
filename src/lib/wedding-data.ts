@@ -20,7 +20,7 @@ export const wedding = {
 
 export const timeline = [
   { time: "11h00", title: "Recepção dos convidados", text: "Chegada e acolhimento dos convidados." },
-  { time: "12h00", title: "Cerimônia", text: "No endereço do local: Rua Dona Ana Neri, 721 — Cambuci." },
+  { time: "12h00", title: "Cerimônia", text: "Celebração da nossa união." },
   { time: "12h30", title: "Coquetel e fotos", text: "Coquetel, música e registro desse momento especial." },
   { time: "13h00", title: "Almoço", text: "Almoço servido no salão." },
 ];
