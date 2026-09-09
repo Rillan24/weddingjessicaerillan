@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { navLinks, wedding } from "@/lib/wedding-data";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -17,33 +15,33 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
         scrolled
-          ? "border-b border-border bg-background/95 shadow-sm backdrop-blur-md"
+          ? "border-b border-border bg-background/90 shadow-[0_10px_30px_-24px_rgba(0,0,0,0.6)] backdrop-blur-xl"
           : "bg-gradient-to-b from-foreground/45 to-transparent",
       )}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
         <a
           href="#topo"
           className={cn(
-            "font-serif text-xl tracking-[0.25em] transition-colors",
+            "min-w-0 truncate font-serif text-xl tracking-[0.25em] transition-colors",
             scrolled ? "text-foreground" : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]",
           )}
         >
           {wedding.monogram}
         </a>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
               className={cn(
-                "text-xs uppercase tracking-[0.16em] transition-colors",
+                "press rounded-full px-3 py-2 text-xs uppercase tracking-[0.16em]",
                 scrolled
-                  ? "text-foreground/80 hover:text-sage-deep"
-                  : "text-cream hover:text-cream/80 drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
+                  ? "text-foreground/75 hover:bg-sage/40 hover:text-sage-deep"
+                  : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] hover:bg-cream/15",
               )}
             >
               {l.label}
@@ -51,36 +49,18 @@ export function Nav() {
           ))}
         </nav>
 
-        <button
-          type="button"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setOpen((v) => !v)}
+        <a
+          href="#confirmar"
           className={cn(
-            "md:hidden",
-            scrolled || open
-              ? "text-foreground"
-              : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
+            "press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
+            scrolled
+              ? "bg-sage-deep text-primary-foreground"
+              : "border border-cream/70 text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
           )}
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+          Confirmar
+        </a>
       </div>
-
-
-      {open && (
-        <nav className="border-t border-border bg-background px-5 pb-6 pt-2 md:hidden">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-3 text-xs uppercase tracking-[0.16em] text-foreground/80"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-      )}
     </header>
   );
 }
