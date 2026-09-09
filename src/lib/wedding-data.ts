@@ -6,7 +6,7 @@ export const wedding = {
   dateLabel: "10 de outubro de 2026",
   timeLabel: "11h",
   city: "São Paulo, SP",
-  venue: "Salão do prédio",
+  venue: "Rua Dona Ana Neri, 721 — Cambuci, São Paulo/SP",
   venueAddress: "Rua Dona Ana Neri, 721 — Cambuci, São Paulo/SP",
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP",
@@ -20,7 +20,7 @@ export const wedding = {
 
 export const timeline = [
   { time: "11h00", title: "Recepção dos convidados", text: "Chegada e acolhimento dos convidados." },
-  { time: "12h00", title: "Cerimônia", text: "No salão do prédio." },
+  { time: "12h00", title: "Cerimônia", text: "No endereço do local: Rua Dona Ana Neri, 721 — Cambuci." },
   { time: "12h30", title: "Coquetel e fotos", text: "Coquetel, música e registro desse momento especial." },
   { time: "13h00", title: "Almoço", text: "Almoço servido no salão." },
 ];
