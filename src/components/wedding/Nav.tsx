@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
 import { navLinks, wedding } from "@/lib/wedding-data";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [dark, setDark] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -23,21 +21,6 @@ export function Nav() {
       window.removeEventListener("resize", onScroll);
     };
   }, []);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem("wedding-theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const enabled = stored ? stored === "dark" : prefersDark;
-    setDark(enabled);
-    document.documentElement.classList.toggle("dark", enabled);
-  }, []);
-
-  const toggleTheme = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    window.localStorage.setItem("wedding-theme", next ? "dark" : "light");
-  };
 
   return (
     <header
@@ -76,34 +59,17 @@ export function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className={cn(
-              "theme-toggle press inline-flex size-10 items-center justify-center rounded-full border transition-colors",
-              scrolled
-                ? "border-border bg-background/70 text-foreground"
-                : "border-cream/55 bg-foreground/15 text-cream backdrop-blur-sm",
-            )}
-            onClick={toggleTheme}
-            aria-label={dark ? "Ativar modo claro" : "Ativar modo escuro"}
-            title={dark ? "Ativar modo claro" : "Ativar modo escuro"}
-          >
-            {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-          </button>
-
-          <a
-            href="#confirmar"
-            className={cn(
-              "press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
-              scrolled
-                ? "bg-sage-deep text-primary-foreground"
-                : "border border-cream/70 text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
-            )}
-          >
-            Confirmar
-          </a>
-        </div>
+        <a
+          href="#confirmar"
+          className={cn(
+            "press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
+            scrolled
+              ? "bg-sage-deep text-primary-foreground"
+              : "border border-cream/70 text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
+          )}
+        >
+          Confirmar
+        </a>
       </div>
 
       <div className="scroll-progress" aria-hidden="true">
