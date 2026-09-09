@@ -1095,3 +1095,167 @@ html.dark .theme-toggle:hover svg {
     transform: none;
   }
 }
+
+
+/* Cinematic opening */
+.cinematic-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 44%, color-mix(in oklab, var(--sage-deep) 28%, #11151b), transparent 32%),
+    radial-gradient(circle at 50% 110%, color-mix(in oklab, var(--gold) 16%, #11151b), transparent 48%),
+    #11151b;
+  color: #f8f2e8;
+  opacity: 1;
+  transition: opacity 850ms cubic-bezier(0.76, 0, 0.24, 1), visibility 850ms;
+}
+
+.cinematic-intro.is-leaving {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.cinematic-intro-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 24%, rgb(5 8 12 / 0.72) 100%);
+}
+
+.cinematic-intro-grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.15;
+  background-image:
+    radial-gradient(rgb(255 255 255 / 0.4) 0.6px, transparent 0.6px),
+    radial-gradient(rgb(255 255 255 / 0.18) 0.5px, transparent 0.5px);
+  background-position: 0 0, 17px 23px;
+  background-size: 29px 29px, 37px 37px;
+  mix-blend-mode: screen;
+  animation: intro-grain-shift 0.45s steps(2) infinite;
+}
+
+.cinematic-intro-orbit {
+  position: absolute;
+  width: min(80vw, 52rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(208 174 105 / 0.28);
+  border-radius: 50%;
+  transform: rotate(-24deg) scaleY(0.34);
+  box-shadow: 0 0 60px rgb(208 174 105 / 0.08);
+  animation: intro-orbit-in 1.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cinematic-intro-orbit-a {
+  animation-delay: 0.08s;
+}
+
+.cinematic-intro-orbit-b {
+  width: min(66vw, 42rem);
+  border-color: rgb(157 177 150 / 0.24);
+  transform: rotate(32deg) scaleY(0.28);
+  animation-delay: 0.18s;
+}
+
+.cinematic-intro-monogram {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.45rem, 2vw, 1.2rem);
+  padding: 0 1rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(5.5rem, 18vw, 11rem);
+  font-weight: 300;
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+  text-shadow:
+    0 0 24px rgb(208 174 105 / 0.22),
+    0 22px 46px rgb(0 0 0 / 0.42);
+  animation: intro-monogram-in 1.15s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cinematic-intro-monogram i {
+  margin: 0 0.18em 0 0.08em;
+  color: var(--gold);
+  font-size: 0.42em;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.cinematic-intro-line {
+  position: absolute;
+  top: calc(50% + clamp(4.6rem, 13vw, 7.7rem));
+  width: clamp(7rem, 20vw, 12rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 18px rgb(208 174 105 / 0.42);
+  animation: intro-line-in 1s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes intro-orbit-in {
+  from {
+    opacity: 0;
+    transform: rotate(-24deg) scaleY(0.34) scale(1.18);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-24deg) scaleY(0.34) scale(1);
+  }
+}
+
+@keyframes intro-monogram-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.18em;
+    transform: translateY(1.2rem) scale(0.92);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: -0.08em;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes intro-line-in {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-grain-shift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(2%, -1%); }
+  100% { transform: translate(-1%, 2%); }
+}
+
+@media (max-width: 767px) {
+  .cinematic-intro-orbit {
+    width: 118vw;
+  }
+
+  .cinematic-intro-orbit-b {
+    width: 96vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-intro,
+  .cinematic-intro-orbit,
+  .cinematic-intro-monogram,
+  .cinematic-intro-line,
+  .cinematic-intro-grain {
+    animation: none;
+    transition: none;
+  }
+}
