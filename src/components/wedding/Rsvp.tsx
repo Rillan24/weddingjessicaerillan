@@ -110,9 +110,16 @@ export function Rsvp() {
                     id="rsvp-guests"
                     type="number"
                     min={0}
-                    max={10}
+                    max={1}
                     value={guests}
-                    onChange={(e) => setGuests(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setGuests(
+                        value === ""
+                          ? ""
+                          : String(Math.min(1, Math.max(0, Number(value) || 0))),
+                      );
+                    }}
                   />
                 </div>
 
