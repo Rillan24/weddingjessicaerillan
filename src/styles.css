@@ -1260,3 +1260,145 @@ html.dark .theme-toggle:hover svg {
   }
 }
 
+
+
+/* Luminous luxury atmosphere */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  position: fixed;
+  inset: -35%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in oklab, var(--gold) 12%, transparent), transparent 24rem),
+    radial-gradient(circle at 84% 42%, color-mix(in oklab, var(--sage-deep) 11%, transparent), transparent 30rem),
+    radial-gradient(circle at 48% 92%, color-mix(in oklab, var(--blush-deep) 9%, transparent), transparent 25rem);
+  opacity: 0.75;
+  animation: ambient-light-drift 18s ease-in-out infinite alternate;
+}
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+.surface {
+  position: relative;
+  isolation: isolate;
+}
+
+.surface::before {
+  position: absolute;
+  inset: -30% auto -30% -45%;
+  z-index: -1;
+  width: 42%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent, color-mix(in oklab, var(--cream) 28%, transparent), transparent);
+  opacity: 0;
+  transform: translateX(-30%) rotate(12deg);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
+  content: "";
+}
+
+.surface:hover::before {
+  opacity: 0.7;
+  transform: translateX(340%) rotate(12deg);
+}
+
+#topo > img {
+  animation: hero-breathe 18s ease-in-out infinite alternate;
+}
+
+#topo > div {
+  text-shadow: 0 10px 36px color-mix(in oklab, black 34%, transparent);
+}
+
+#topo a[href="#confirmar"],
+#presentes button,
+#confirmar button[type="submit"] {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 18px 36px -22px color-mix(in oklab, var(--gold) 60%, transparent),
+    inset 0 1px 0 color-mix(in oklab, var(--cream) 24%, transparent);
+}
+
+#topo a[href="#confirmar"]::before,
+#presentes button::before,
+#confirmar button[type="submit"]::before {
+  position: absolute;
+  inset: 0 auto 0 -120%;
+  width: 70%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent, color-mix(in oklab, white 32%, transparent), transparent);
+  transform: skewX(-18deg);
+  transition: left 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  content: "";
+}
+
+#topo a[href="#confirmar"]:hover::before,
+#presentes button:hover::before,
+#confirmar button[type="submit"]:hover::before {
+  left: 145%;
+}
+
+#presentes li,
+#confirmar form,
+#faq [data-state] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#presentes li::after,
+#confirmar form::after,
+#faq [data-state]::after {
+  position: absolute;
+  top: -8rem;
+  right: -7rem;
+  width: 16rem;
+  height: 16rem;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--gold) 12%, transparent), transparent 67%);
+  opacity: 0.55;
+  transform: translate3d(0, 0, 0);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
+  content: "";
+}
+
+#presentes li:hover::after,
+#confirmar form:hover::after,
+#faq [data-state]:hover::after {
+  opacity: 0.85;
+  transform: translate3d(-1.5rem, 1.2rem, 0) scale(1.12);
+}
+
+@keyframes ambient-light-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) rotate(0deg) scale(0.98);
+  }
+
+  100% {
+    transform: translate3d(2%, 1%, 0) rotate(3deg) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  #topo > img {
+    animation: none;
+  }
+
+  .surface:hover::before,
+  #topo a[href="#confirmar"]:hover::before,
+  #presentes button:hover::before,
+  #confirmar button[type="submit"]:hover::before {
+    transition: none;
+  }
+}
