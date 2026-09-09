@@ -53,6 +53,17 @@ export function Gifts() {
     },
   });
 
+  const visibleGifts: Gift[] = gifts.length
+    ? gifts
+    : giftCopy.map((copy, index) => ({
+        id: "display-" + copy.price + "-" + index,
+        title: copy.title,
+        description: null,
+        price: copy.price,
+        claimed_at: null,
+      }));
+  const usingDisplayFallback = gifts.length === 0;
+
   const claim = useMutation({
     mutationFn: async ({ id, giver }: { id: string; giver: string }) => {
       const { data, error } = await supabase
@@ -108,7 +119,7 @@ export function Gifts() {
           <p className="mt-14 text-center text-sm text-muted-foreground">Carregando presentes…</p>
         ) : (
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {gifts.map((gift, index) => {
+            {visibleGifts.map((gift, index) => {
               const copy = giftCopy[index];
               const present = copy ? { ...gift, ...copy, description: null } : gift;
 
@@ -124,7 +135,15 @@ export function Gifts() {
                     {present.price ? brl(Number(present.price)) : "Valor livre"}
                   </p>
                   <div className="mt-6">
-                    {present.claimed_at ? (
+                    {usingDisplayFallback ? (
+                      <button
+                        type="button"
+                        onClick={copyPix}
+                        className="border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep transition-colors hover:bg-sage-deep hover:text-primary-foreground"
+                      >
+                        Copiar chave PIX
+                      </button>
+                    ) : present.claimed_at ? (
                       <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
                         Já presenteado
                       </p>
