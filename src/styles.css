@@ -593,3 +593,160 @@ nav[aria-label="Navegação rápida"] a[aria-current="true"] span:first-child {
     min-height: 3.4rem;
   }
 }
+
+
+/* Interactive theme layer */
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  transition: background-color 450ms ease, color 450ms ease;
+}
+
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  background: color-mix(in oklab, var(--cream) 12%, transparent);
+}
+
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--sage-deep), var(--gold), var(--blush-deep));
+  box-shadow: 0 0 14px color-mix(in oklab, var(--gold) 75%, transparent);
+  transition: width 180ms ease-out;
+}
+
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 26px -18px color-mix(in oklab, var(--foreground) 70%, transparent);
+}
+
+.theme-toggle::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: radial-gradient(circle at 30% 20%, color-mix(in oklab, var(--cream) 28%, transparent), transparent 55%);
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.theme-toggle:hover::after {
+  opacity: 1;
+}
+
+.theme-toggle svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(18deg) scale(1.1);
+}
+
+html.dark .theme-toggle:hover svg {
+  transform: rotate(-18deg) scale(1.1);
+}
+
+.dark {
+  --sage: oklch(0.32 0.045 155);
+  --sage-deep: oklch(0.72 0.09 155);
+  --blush: oklch(0.29 0.045 25);
+  --blush-deep: oklch(0.72 0.09 25);
+  --gold: oklch(0.78 0.11 85);
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--blush) 35%, transparent), transparent 28rem),
+    radial-gradient(circle at 90% 32%, color-mix(in oklab, var(--sage) 34%, transparent), transparent 30rem),
+    var(--background);
+}
+
+.dark section.bg-cream,
+.dark section.bg-background,
+.dark .bg-cream {
+  background-color: var(--background);
+}
+
+.dark #cerimonia {
+  background-color: color-mix(in oklab, var(--sage) 38%, var(--background));
+}
+
+.dark #presentes {
+  background-color: color-mix(in oklab, var(--blush) 45%, var(--background));
+}
+
+.dark #cerimonia .surface,
+.dark #confirmar form,
+.dark #confirmar > div > div.mt-12,
+.dark #presentes li,
+.dark #faq [data-state="open"] {
+  background: color-mix(in oklab, var(--card) 92%, var(--sage) 8%);
+}
+
+.dark #cerimonia li,
+.dark #programacao ol > li > div,
+.dark #galeria figure {
+  background-color: color-mix(in oklab, var(--card) 92%, var(--sage) 8%);
+}
+
+.dark #galeria figure .bg-white {
+  background-color: color-mix(in oklab, var(--card) 86%, var(--background));
+}
+
+.dark #confirmar input,
+.dark #confirmar textarea {
+  background-color: color-mix(in oklab, var(--card) 92%, var(--background));
+  color: var(--foreground);
+}
+
+.dark #confirmar input:focus,
+.dark #confirmar textarea:focus {
+  background-color: var(--card);
+}
+
+.dark #faq [data-state="open"] {
+  border-color: color-mix(in oklab, var(--gold) 35%, transparent);
+}
+
+.dark nav[aria-label="Navegação rápida"] {
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.dark nav[aria-label="Navegação rápida"] a:hover,
+.dark nav[aria-label="Navegação rápida"] a[aria-current="true"] {
+  background: color-mix(in oklab, var(--sage) 62%, transparent);
+}
+
+.dark #topo a[href="#confirmar"] {
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  color: var(--foreground);
+}
+
+.dark #topo a[href="#confirmar"]:hover {
+  background: var(--card);
+}
+
+@keyframes nav-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+
+.scroll-progress span {
+  animation: nav-glow 3s ease-in-out infinite;
+}
