@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Nav } from "@/components/wedding/Nav";
@@ -29,9 +30,76 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+function CinematicIntro() {
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const timeout = window.setTimeout(() => {
+      setIsLeaving(true);
+      document.body.style.overflow = previousOverflow;
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(timeout);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  return (
+    <div
+      className={`cinematic-intro ${isLeaving ? "is-leaving" : ""}`}
+      aria-hidden={isLeaving}
+    >
+      <div className="cinematic-intro-vignette" />
+      <div className="cinematic-intro-orbit cinematic-intro-orbit-a" />
+      <div className="cinematic-intro-orbit cinematic-intro-orbit-b" />
+      <div className="cinematic-intro-grain" />
+      <div className="cinematic-intro-monogram" aria-label="J e R">
+        <span>J</span>
+        <i>&</i>
+        <span>R</span>
+      </div>
+      <div className="cinematic-intro-line" />
+    </div>
+  );
+}
+
+function ScrollToTopOnLoad() {
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+
+    const resetToTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+      if (window.location.hash) {
+        window.history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}${window.location.search}`,
+        );
+      }
+    };
+
+    resetToTop();
+    window.requestAnimationFrame(resetToTop);
+    window.addEventListener("pageshow", resetToTop);
+
+    return () => {
+      window.removeEventListener("pageshow", resetToTop);
+    };
+  }, []);
+
+  return null;
+}
+
 function Index() {
   return (
     <>
+      <ScrollToTopOnLoad />
+      <CinematicIntro />
       <main className="overflow-x-hidden bg-background pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-0">
         <Nav />
         <Hero />
