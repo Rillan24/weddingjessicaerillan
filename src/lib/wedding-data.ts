@@ -1,3 +1,10 @@
+export const pixDetails = {
+  key: "11976611429",
+  qrKey: "+5511976611429",
+  recipient: "Rillahn Pereira da Silva",
+  bank: "Nubank",
+} as const;
+
 export const wedding = {
   brideFirst: "Jessica",
   groomFirst: "Rillan",
@@ -13,7 +20,7 @@ export const wedding = {
   mapEmbedUrl:
     "https://www.google.com/maps?q=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP&output=embed",
   dressCode: "Fique à vontade — preferencialmente, traje esporte fino.",
-  pixKey: "1197661-1429",
+  pixKey: pixDetails.key,
   quote:
     "Não importa onde estejamos no mundo, estou sempre em casa quando estou com você.",
 };
