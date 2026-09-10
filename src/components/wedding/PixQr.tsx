@@ -1,3 +1,5 @@
+import { pixDetails } from "@/lib/wedding-data";
+
 type PixQrProps = {
   amount: number;
 };
@@ -247,7 +249,7 @@ const makeQrMatrix = (payload: string) => {
 
 export function PixQr({ amount }: PixQrProps) {
   const merchantAccount =
-    pixField("00", "BR.GOV.BCB.PIX") + pixField("01", "+5511976611429");
+    pixField("00", "BR.GOV.BCB.PIX") + pixField("01", pixDetails.qrKey);
   const payload =
     pixField("00", "01") +
     pixField("26", merchantAccount) +
@@ -255,7 +257,7 @@ export function PixQr({ amount }: PixQrProps) {
     pixField("53", "986") +
     pixField("54", amount.toFixed(2)) +
     pixField("58", "BR") +
-    pixField("59", "RILLAHN PEREIRA DA SILVA") +
+    pixField("59", pixDetails.recipient.toUpperCase()) +
     pixField("60", "SAO PAULO") +
     pixField("62", pixField("05", "***")) +
     "6304";
