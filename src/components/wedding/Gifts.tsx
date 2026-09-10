@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Copy, Check, Heart } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { wedding } from "@/lib/wedding-data";
+import { createGiftCheckout } from "@/lib/mercadopago.functions";
+import { pixDetails } from "@/lib/wedding-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PixQr } from "./PixQr";
@@ -59,16 +60,12 @@ const giftCopy: GiftCopy[] = [
   { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
 ];
 
-const pixKey = "11976611429";
-const pixRecipient = "Rillahn Pereira da Silva";
-const pixBank = "Nubank";
-
 export function Gifts() {
-  const queryClient = useQueryClient();
   const [selected, setSelected] = useState<Gift | null>(null);
   const [name, setName] = useState("");
   const [giverPhone, setGiverPhone] = useState("");
-  const [step, setStep] = useState<"details" | "payment" | "success">("details");
+  const [step, setStep] = useState<"details" | "pix">("details");
+  const [pixFallback, setPixFallback] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const { data: gifts = [], isLoading } = useQuery({
@@ -93,35 +90,32 @@ export function Gifts() {
     claimed_at: storedGifts[index]?.claimed_at ?? null,
   }));
 
-  const claim = useMutation({
-    mutationFn: async ({
-      id,
-      giver,
-      phone,
-    }: {
-      id: string;
-      giver: string;
-      phone: string;
-    }) => {
-      const { data, error } = await supabase
-        .from("gifts")
-        .update({
-          claimed_by: giver.trim() + " · " + phone.trim(),
-          claimed_at: new Date().toISOString(),
-        })
-        .eq("id", id)
-        .is("claimed_at", null)
-        .select("id");
-
-      if (error) throw error;
-      if (!data?.length) throw new Error("Presente indisponível");
+  const checkout = useMutation({
+    mutationFn: async ({ giftId, buyerName, phone }: { giftId: string; buyerName: string; phone: string }) => {
+      const result = await createGiftCheckout({
+        data: {
+          giftId,
+          name: buyerName.trim(),
+          phone: phone.trim(),
+          origin: window.location.origin,
+        },
+      });
+      if (!result.ok) throw new Error(result.error);
+      return result;
     },
-    onSuccess: () => {
-      setStep("payment");
-      queryClient.invalidateQueries({ queryKey: ["gifts"] });
+    onSuccess: (result) => {
+      window.location.assign(result.checkoutUrl);
     },
-    onError: () =>
-      toast.error("Não foi possível registrar este presente. Talvez alguém tenha escolhido antes."),
+    onError: (error) => {
+      const message = error instanceof Error ? error.message : "Não foi possível abrir o pagamento.";
+      if (message === "PAGAMENTO_INDISPONIVEL") {
+        setPixFallback(true);
+        setStep("pix");
+        toast.error("O checkout online está temporariamente indisponível. Você pode usar o PIX direto abaixo.");
+      } else {
+        toast.error(message);
+      }
+    },
   });
 
   const resetDialog = () => {
@@ -129,6 +123,7 @@ export function Gifts() {
     setName("");
     setGiverPhone("");
     setStep("details");
+    setPixFallback(false);
     setCopied(false);
   };
 
@@ -137,28 +132,26 @@ export function Gifts() {
     setName("");
     setGiverPhone("");
     setStep("details");
+    setPixFallback(false);
     setCopied(false);
   };
 
   const continueToPayment = () => {
     if (!selected) return;
-
     if (!name.trim() || !giverPhone.trim()) {
       toast.error("Informe seu nome e telefone para continuar.");
       return;
     }
-
     if (selected.id.startsWith("display-")) {
-      setStep("payment");
+      toast.error("Este presente ainda não está disponível para checkout.");
       return;
     }
-
-    claim.mutate({ id: selected.id, giver: name, phone: giverPhone });
+    checkout.mutate({ giftId: selected.id, buyerName: name, phone: giverPhone });
   };
 
   const copyPix = async () => {
     try {
-      await navigator.clipboard.writeText(pixKey);
+      await navigator.clipboard.writeText(pixDetails.key);
       setCopied(true);
       toast.success("Chave PIX copiada");
       window.setTimeout(() => setCopied(false), 2500);
@@ -187,32 +180,19 @@ export function Gifts() {
             {visibleGifts.map((gift, index) => {
               const copy = giftCopy[index];
               if (!copy) return null;
-              const present = { ...gift, ...copy, description: null };
-
               return (
-                <li
-                  key={gift.id}
-                  className="press flex flex-col rounded-[1.5rem] border border-border/70 bg-background p-7 shadow-[0_20px_55px_-38px_rgba(30,47,38,0.7)]"
-                >
+                <li key={gift.id} className="press flex flex-col rounded-[1.5rem] border border-border/70 bg-background p-7 shadow-[0_20px_55px_-38px_rgba(30,47,38,0.7)]">
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     <span>{String(copy.order).padStart(2, "0")}</span>
                     {copy.badge && <span className="text-base tracking-normal">{copy.badge}</span>}
                   </div>
-                  <h3 className="mt-5 font-serif text-2xl leading-tight text-foreground">
-                    {present.title}
-                  </h3>
+                  <h3 className="mt-5 font-serif text-2xl leading-tight text-foreground">{copy.title}</h3>
                   <p className="mt-4 font-serif text-xl text-sage-deep">{brl(copy.price)}</p>
                   <div className="mt-6">
                     {gift.claimed_at ? (
-                      <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-                        Já presenteado
-                      </p>
+                      <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Já presenteado</p>
                     ) : (
-                      <button
-                        type="button"
-                        onClick={() => openGift(present)}
-                        className="press min-h-11 rounded-full border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep hover:bg-sage-deep hover:text-primary-foreground"
-                      >
+                      <button type="button" onClick={() => openGift({ ...gift, title: copy.title, price: copy.price })} className="press min-h-11 rounded-full border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep hover:bg-sage-deep hover:text-primary-foreground">
                         Escolher esta opção
                       </button>
                     )}
@@ -231,94 +211,43 @@ export function Gifts() {
               <DialogHeader>
                 <DialogTitle className="font-serif text-2xl">Um presente com carinho</DialogTitle>
                 <DialogDescription>
-                  Para registrar esta cota de {brl(Number(selected.price))}, informe seu nome e
-                  telefone. Depois mostraremos o PIX e o QR Code.
+                  Informe seu nome e telefone para abrir o pagamento seguro. O Mercado Pago permite PIX ou cartão, inclusive parcelado quando disponível.
                 </DialogDescription>
               </DialogHeader>
-
               <div className="space-y-4">
-                <Input
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder="Seu nome completo"
-                  aria-label="Seu nome completo"
-                  autoFocus
-                  required
-                />
-                <Input
-                  value={giverPhone}
-                  onChange={(event) => setGiverPhone(event.target.value)}
-                  placeholder="Seu telefone"
-                  aria-label="Seu telefone"
-                  type="tel"
-                  required
-                />
+                <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Seu nome completo" aria-label="Seu nome completo" autoFocus required />
+                <Input value={giverPhone} onChange={(event) => setGiverPhone(event.target.value)} placeholder="Seu telefone" aria-label="Seu telefone" type="tel" required />
               </div>
-
               <DialogFooter>
-                <Button
-                  disabled={!name.trim() || !giverPhone.trim() || claim.isPending}
-                  onClick={continueToPayment}
-                >
-                  {claim.isPending ? "Registrando…" : "Continuar para o PIX"}
+                <Button disabled={!name.trim() || !giverPhone.trim() || checkout.isPending} onClick={continueToPayment}>
+                  {checkout.isPending ? "Abrindo Mercado Pago…" : "Pagar com Mercado Pago"}
                 </Button>
               </DialogFooter>
             </>
           )}
 
-          {step === "payment" && selected && (
+          {step === "pix" && selected && (
             <>
               <DialogHeader>
-                <DialogTitle className="font-serif text-2xl">Seu presente foi registrado</DialogTitle>
+                <DialogTitle className="font-serif text-2xl">PIX direto</DialogTitle>
                 <DialogDescription>
-                  Obrigado, {name.split(" ")[0] || "querido convidado"}! A cota foi reservada para
-                  você. Agora faça o PIX no valor de {brl(Number(selected.price))}.
+                  {pixFallback ? "O checkout online está indisponível neste momento. Se preferir, use os dados abaixo para realizar o PIX." : "Você pode realizar o PIX diretamente pelos dados abaixo."}
                 </DialogDescription>
               </DialogHeader>
-
               <div className="grid gap-5 rounded-2xl border border-sage/60 bg-sage/10 p-5 sm:grid-cols-[auto_1fr] sm:items-center">
                 <PixQr amount={Number(selected.price)} />
                 <div className="space-y-3 text-sm text-muted-foreground">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Chave PIX</p>
-                    <p className="mt-1 break-all font-medium text-foreground">{pixKey}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Recebedor</p>
-                    <p className="mt-1 font-medium text-foreground">{pixRecipient}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Banco</p>
-                    <p className="mt-1 font-medium text-foreground">{pixBank}</p>
-                  </div>
+                  <div><p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Chave PIX</p><p className="mt-1 break-all font-medium text-foreground">{pixDetails.key}</p></div>
+                  <div><p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Recebedor</p><p className="mt-1 font-medium text-foreground">{pixDetails.recipient}</p></div>
+                  <div><p className="text-xs uppercase tracking-[0.18em] text-sage-deep">Banco</p><p className="mt-1 font-medium text-foreground">{pixDetails.bank}</p></div>
                   <Button type="button" variant="outline" onClick={copyPix}>
                     {copied ? <Check className="mr-2 size-4" /> : <Copy className="mr-2 size-4" />}
                     Copiar chave PIX
                   </Button>
                 </div>
               </div>
-
-              <DialogFooter>
-                <Button onClick={() => setStep("success")}>Já realizei o pagamento</Button>
-              </DialogFooter>
-            </>
-          )}
-
-          {step === "success" && selected && (
-            <>
-              <div className="py-6 text-center">
-                <Heart className="mx-auto size-12 fill-current text-sage-deep" />
-                <DialogTitle className="mt-5 font-serif text-3xl text-sage-deep">
-                  Obrigado por esse carinho!
-                </DialogTitle>
-                <DialogDescription className="mx-auto mt-4 max-w-sm text-base leading-relaxed">
-                  {name.split(" ")[0] || "Querido convidado"}, seu presente foi aceito com muito
-                  carinho. Vocês já fazem parte da nossa história! 😍🥰
-                </DialogDescription>
-              </div>
-              <DialogFooter>
-                <Button onClick={resetDialog}>Concluir</Button>
-              </DialogFooter>
+              <p className="text-center text-xs leading-relaxed text-muted-foreground">A confirmação automática do presente ocorre quando o pagamento é feito pelo checkout do Mercado Pago. No PIX direto, guarde o comprovante.</p>
+              <DialogFooter><Button variant="outline" onClick={resetDialog}>Fechar</Button></DialogFooter>
             </>
           )}
         </DialogContent>
