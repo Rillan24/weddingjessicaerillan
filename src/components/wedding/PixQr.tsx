@@ -20,12 +20,12 @@ for (let value = 1, index = 0; index < 255; index += 1) {
 }
 
 for (let index = 255; index < GF_EXP.length; index += 1) {
-  GF_EXP[index] = GF_EXP[index - 255];
+  GF_EXP[index] = GF_EXP[index - 255]!;
 }
 
 const multiplyGalois = (left: number, right: number) => {
   if (left === 0 || right === 0) return 0;
-  return GF_EXP[GF_LOG[left] + GF_LOG[right]];
+  return GF_EXP[GF_LOG[left]! + GF_LOG[right]!]!;
 };
 
 const bchDigit = (value: number) => {
@@ -63,11 +63,11 @@ const reedSolomonGenerator = (degree: number) => {
   let polynomial = [1];
 
   for (let index = 0; index < degree; index += 1) {
-    const next = Array(polynomial.length + 1).fill(0);
+    const next = Array(polynomial.length + 1).fill(0) as number[];
 
     polynomial.forEach((coefficient, coefficientIndex) => {
-      next[coefficientIndex] ^= coefficient;
-      next[coefficientIndex + 1] ^= multiplyGalois(coefficient, GF_EXP[index]);
+      next[coefficientIndex]! ^= coefficient;
+      next[coefficientIndex + 1]! ^= multiplyGalois(coefficient, GF_EXP[index]!);
     });
 
     polynomial = next;
@@ -78,15 +78,15 @@ const reedSolomonGenerator = (degree: number) => {
 
 const reedSolomonRemainder = (data: number[], degree: number) => {
   const generator = reedSolomonGenerator(degree);
-  const remainder = Array(degree).fill(0);
+  const remainder = Array(degree).fill(0) as number[];
 
   data.forEach((value) => {
-    const factor = value ^ remainder[0];
+    const factor = value ^ remainder[0]!;
     remainder.shift();
     remainder.push(0);
 
     for (let index = 0; index < degree; index += 1) {
-      remainder[index] ^= multiplyGalois(generator[index + 1], factor);
+      remainder[index]! ^= multiplyGalois(generator[index + 1]!, factor);
     }
   });
 
@@ -123,10 +123,10 @@ const encodeCodewords = (payload: string) => {
 
   const interleaved: number[] = [];
   for (let index = 0; index < DATA_PER_BLOCK; index += 1) {
-    blocks.forEach((block) => interleaved.push(block[index]));
+    blocks.forEach((block) => interleaved.push(block[index]!));
   }
   for (let index = DATA_PER_BLOCK; index < DATA_PER_BLOCK + EC_PER_BLOCK; index += 1) {
-    blocks.forEach((block) => interleaved.push(block[index]));
+    blocks.forEach((block) => interleaved.push(block[index]!));
   }
 
   return interleaved;
@@ -136,7 +136,7 @@ const finderPattern = (modules: (boolean | null)[][], row: number, column: numbe
   for (let r = -1; r <= 7; r += 1) {
     for (let c = -1; c <= 7; c += 1) {
       if (row + r < 0 || row + r >= SIZE || column + c < 0 || column + c >= SIZE) continue;
-      modules[row + r][column + c] =
+      modules[row + r]![column + c] =
         (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
         (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
         (r >= 2 && r <= 4 && c >= 2 && c <= 4);
@@ -147,7 +147,7 @@ const finderPattern = (modules: (boolean | null)[][], row: number, column: numbe
 const alignmentPattern = (modules: (boolean | null)[][], row: number, column: number) => {
   for (let r = -2; r <= 2; r += 1) {
     for (let c = -2; c <= 2; c += 1) {
-      modules[row + r][column + c] = Math.max(Math.abs(r), Math.abs(c)) !== 1;
+      modules[row + r]![column + c] = Math.max(Math.abs(r), Math.abs(c)) !== 1;
     }
   }
 };
@@ -179,36 +179,36 @@ const makeQrMatrix = (payload: string) => {
   finderPattern(modules, 0, SIZE - 7);
 
   for (let index = 8; index < SIZE - 8; index += 1) {
-    if (modules[index][6] === null) modules[index][6] = index % 2 === 0;
-    if (modules[6][index] === null) modules[6][index] = index % 2 === 0;
+    if (modules[index]![6] === null) modules[index]![6] = index % 2 === 0;
+    if (modules[6]![index] === null) modules[6]![index] = index % 2 === 0;
   }
 
   [6, 22, 38].forEach((row) => {
     [6, 22, 38].forEach((column) => {
-      if (modules[row][column] === null) alignmentPattern(modules, row, column);
+      if (modules[row]![column] === null) alignmentPattern(modules, row, column);
     });
   });
 
   const versionBits = bchTypeNumber(VERSION);
   for (let index = 0; index < 18; index += 1) {
     const dark = ((versionBits >>> index) & 1) === 1;
-    modules[Math.floor(index / 3)][(index % 3) + SIZE - 8 - 3] = dark;
-    modules[(index % 3) + SIZE - 8 - 3][Math.floor(index / 3)] = dark;
+    modules[Math.floor(index / 3)]![(index % 3) + SIZE - 8 - 3] = dark;
+    modules[(index % 3) + SIZE - 8 - 3]![Math.floor(index / 3)] = dark;
   }
 
   const formatBits = bchTypeInfo(1 << 3);
   for (let index = 0; index < 15; index += 1) {
     const dark = ((formatBits >>> index) & 1) === 1;
 
-    if (index < 6) modules[index][8] = dark;
-    else if (index < 8) modules[index + 1][8] = dark;
-    else modules[SIZE - 15 + index][8] = dark;
+    if (index < 6) modules[index]![8] = dark;
+    else if (index < 8) modules[index + 1]![8] = dark;
+    else modules[SIZE - 15 + index]![8] = dark;
 
-    if (index < 8) modules[8][SIZE - index - 1] = dark;
-    else if (index < 9) modules[8][15 - index - 1 + 1] = dark;
-    else modules[8][15 - index - 1] = dark;
+    if (index < 8) modules[8]![SIZE - index - 1] = dark;
+    else if (index < 9) modules[8]![15 - index - 1 + 1] = dark;
+    else modules[8]![15 - index - 1] = dark;
   }
-  modules[SIZE - 8][8] = true;
+  modules[SIZE - 8]![8] = true;
 
   const data = encodeCodewords(payload);
   let row = SIZE - 1;
@@ -222,11 +222,11 @@ const makeQrMatrix = (payload: string) => {
     while (true) {
       for (let offset = 0; offset < 2; offset += 1) {
         const currentColumn = column - offset;
-        if (modules[row][currentColumn] !== null) continue;
+        if (modules[row]![currentColumn] !== null) continue;
 
         const dark =
-          byteIndex < data.length && ((data[byteIndex] >>> bitIndex) & 1) === 1;
-        modules[row][currentColumn] = (row + currentColumn) % 2 === 0 ? !dark : dark;
+          byteIndex < data.length && ((data[byteIndex]! >>> bitIndex) & 1) === 1;
+        modules[row]![currentColumn] = (row + currentColumn) % 2 === 0 ? !dark : dark;
 
         bitIndex -= 1;
         if (bitIndex < 0) {

@@ -186,6 +186,7 @@ export function Gifts() {
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visibleGifts.map((gift, index) => {
               const copy = giftCopy[index];
+              if (!copy) return null;
               const present = { ...gift, ...copy, description: null };
 
               return (
@@ -200,7 +201,7 @@ export function Gifts() {
                   <h3 className="mt-5 font-serif text-2xl leading-tight text-foreground">
                     {present.title}
                   </h3>
-                  <p className="mt-4 font-serif text-xl text-sage-deep">{brl(present.price)}</p>
+                  <p className="mt-4 font-serif text-xl text-sage-deep">{brl(copy.price)}</p>
                   <div className="mt-6">
                     {gift.claimed_at ? (
                       <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
