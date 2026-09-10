@@ -14,6 +14,53 @@ export type Database = {
   }
   public: {
     Tables: {
+      gift_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          gift_id: string
+          giver_name: string
+          giver_phone: string
+          id: string
+          payment_id: string | null
+          preference_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          gift_id: string
+          giver_name: string
+          giver_phone: string
+          id?: string
+          payment_id?: string | null
+          preference_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          gift_id?: string
+          giver_name?: string
+          giver_phone?: string
+          id?: string
+          payment_id?: string | null
+          preference_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gift_payments_gift_id_fkey"
+            columns: ["gift_id"]
+            isOneToOne: false
+            referencedRelation: "gifts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gifts: {
         Row: {
           claimed_at: string | null
