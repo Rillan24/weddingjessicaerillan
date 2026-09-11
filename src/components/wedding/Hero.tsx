@@ -74,7 +74,7 @@ export function Hero() {
         )}
 
         <a
-          href="#confirmar"
+          href="https://wa.me/11925308573"
           className="mt-12 inline-block border border-cream/70 px-9 py-3.5 text-[0.7rem] uppercase tracking-[0.28em] text-cream transition-colors hover:bg-cream hover:text-foreground"
         >
           Confirmar presença
