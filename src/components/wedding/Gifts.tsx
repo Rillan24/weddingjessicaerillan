@@ -168,7 +168,7 @@ export function Gifts() {
           <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
             Presentear é opcional, sua presença é o essencial
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-relaxed text-foreground/80 md:text-lg">
             Se quiser celebrar conosco de uma forma especial, escolha uma das experiências abaixo. Você pode presentear via PIX ou cartão de crédito em até 4x, conforme as opções exibidas no checkout.
           </p>
         </div>
