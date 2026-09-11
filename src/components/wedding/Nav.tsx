@@ -60,7 +60,7 @@ export function Nav() {
         </nav>
 
         <a
-          href="#confirmar"
+          href="https://wa.me/11925308573"
           className={cn(
             "press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
             scrolled
