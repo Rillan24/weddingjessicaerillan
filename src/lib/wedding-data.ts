@@ -57,5 +57,5 @@ export const navLinks = [
   { href: "#programacao", label: "Programação" },
   { href: "#galeria", label: "Galeria" },
   { href: "#presentes", label: "Presentes" },
-  { href: "#confirmar", label: "Confirmar presença" },
+  { href: "https://wa.me/11925308573", label: "Confirmar presença" },
 ];
