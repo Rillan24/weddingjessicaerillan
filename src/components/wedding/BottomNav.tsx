@@ -45,7 +45,7 @@ export function BottomNav() {
           return (
             <li key={item.id} className="flex-1">
               <a
-                href={`#${item.id}`}
+                href={item.id === "confirmar" ? "https://wa.me/11925308573" : `#${item.id}`}
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
                   "group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
