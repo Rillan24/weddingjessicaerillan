@@ -166,7 +166,7 @@ export function Gifts() {
         <div className="text-center">
           <p className="eyebrow">Lista de presentes</p>
           <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
-            Presentear é opcional, sua presença é o essencial
+            Celebre este novo começo com um presente especial
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-relaxed text-foreground/80 md:text-lg">
             Se quiser celebrar conosco de uma forma especial, escolha uma das experiências abaixo. Você pode presentear via PIX ou cartão de crédito em até 4x, conforme as opções exibidas no checkout.
