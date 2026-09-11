@@ -169,7 +169,7 @@ export function Gifts() {
             Presentear é opcional, sua presença é o essencial
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            Se quiser celebrar conosco de uma forma especial, escolha uma das experiências abaixo.
+            Se quiser celebrar conosco de uma forma especial, escolha uma das experiências abaixo. Você pode presentear via PIX ou cartão de crédito em até 4x, conforme as opções exibidas no checkout.
           </p>
         </div>
 
@@ -211,7 +211,7 @@ export function Gifts() {
               <DialogHeader>
                 <DialogTitle className="font-serif text-2xl">Um presente com carinho</DialogTitle>
                 <DialogDescription>
-                  Informe seu nome e telefone para abrir o pagamento seguro. O Mercado Pago permite PIX ou cartão, inclusive parcelado quando disponível.
+                  Informe seu nome e telefone para abrir o pagamento seguro. Você pode escolher PIX ou cartão de crédito, com parcelamento em até 4x.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
