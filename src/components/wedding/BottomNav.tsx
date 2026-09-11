@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Heart, Church, Images, Gift, CalendarCheck } from "lucide-react";
+import { Heart, Church, Images, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -7,7 +7,7 @@ const items = [
   { id: "cerimonia", label: "Cerimônia", icon: Church },
   { id: "galeria", label: "Galeria", icon: Images },
   { id: "presentes", label: "Presentes", icon: Gift },
-  { id: "confirmar", label: "Confirmar presença", icon: CalendarCheck },
+  
 ];
 
 export function BottomNav() {
