@@ -215,7 +215,7 @@ export function Gifts() {
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
-                <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Seu nome completo" aria-label="Seu nome completo" autoFocus required />
+                <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Seu nome" aria-label="Seu nome" autoFocus required />
                 <Input value={giverPhone} onChange={(event) => setGiverPhone(event.target.value)} placeholder="Seu telefone" aria-label="Seu telefone" type="tel" required />
               </div>
               <DialogFooter>
