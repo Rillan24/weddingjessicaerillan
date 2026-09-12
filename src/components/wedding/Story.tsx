@@ -3,6 +3,7 @@ import couplePark from "@/assets/couple-park.jpg.asset.json";
 import { Reveal } from "./Reveal";
 import { assetUrl } from "@/lib/asset-url";
 
+
 export function Story() {
   return (
     <section id="historia" className="bg-background py-24 md:py-28">
@@ -23,6 +24,7 @@ export function Story() {
           />
         </Reveal>
 
+
         <Reveal className="md:pl-6" delay={120}>
           <p className="eyebrow">Nossa história</p>
           <h2 className="mt-4 font-serif text-4xl leading-tight text-foreground md:text-5xl">
@@ -33,13 +35,18 @@ export function Story() {
           <div className="rule-soft mt-6 w-24" />
           <div className="mt-8 space-y-5 text-[0.95rem] leading-loose text-muted-foreground">
             <p>
-              A gente se conheceu num sábado qualquer que virou o mais importante de todos.
-              Entre conversas que não acabavam e viagens improvisadas, descobrimos que a vida
-              fica mais leve quando é dividida.
+              Um amor que chegou leve e ficou para sempre.
             </p>
             <p>
-              Foi um ciclo de planos feitos a dois, risadas fora de hora e sonhos desenhados no caminho —
-              e agora um sim para celebrar diante de quem amamos.
+              Desde o início, tudo entre nós foi leve, verdadeiro e natural. Fomos nos conhecendo,
+              compartilhando a vida e, aos poucos, percebendo que queríamos muito mais do que viver
+              momentos juntos: queríamos construir uma vida juntos.
+            </p>
+            <p>
+              Hoje, celebramos esse amor e o sonho de formar a nossa família.
+            </p>
+            <p>
+              E que bom que a nossa história nos trouxe até aqui.
             </p>
           </div>
           <p className="mt-8 max-w-xl font-serif text-xl italic text-sage-deep">
