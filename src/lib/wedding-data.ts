@@ -19,7 +19,8 @@ export const wedding = {
     "https://www.google.com/maps/search/?api=1&query=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP",
   mapEmbedUrl:
     "https://www.google.com/maps?q=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP&output=embed",
-  dressCode: "Fique à vontade para escolher seu melhor estilo, com a elegância que a ocasião merece.",
+  dressCode: "Traje livre: venha elegante e confortável, escolhendo o estilo que faz você se sentir bem.",
+  parkingInfo: "As orientações de estacionamento serão atualizadas aqui antes da celebração.",
   pixKey: pixDetails.key,
   quote:
     "Assim, eles já não são dois, mas uma só carne. — Mateus 19:6",
@@ -38,11 +39,11 @@ export const faqs = [
   },
   {
     q: "Terá estacionamento?",
-    a: "As informações sobre estacionamento serão definidas mais próximo do dia.",
+    a: "As orientações de estacionamento serão atualizadas aqui antes da celebração. Recomendamos consultar esta seção na semana do casamento.",
   },
   {
     q: "Qual o traje?",
-    a: "Fique à vontade para vestir o que faz você se sentir bem. Se desejar acompanhar o clima da celebração, escolha uma produção elegante e confortável, no seu próprio estilo.",
+    a: "O traje é livre: escolha uma produção elegante e confortável, no seu próprio estilo, para celebrar conosco com leveza.",
   },
   {
     q: "Posso postar fotos?",
