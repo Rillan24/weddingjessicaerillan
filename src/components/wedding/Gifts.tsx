@@ -38,17 +38,17 @@ const brl = (value: number) =>
 const giftCopy: GiftCopy[] = [
   { order: 1, badge: "⭐", title: "✈️ Uma experiência para a nossa Lua de Mel", price: 500 },
   { order: 2, title: "🍟 Air Fryer para nossa casa", price: 320 },
-  { order: 3, badge: "💝", title: "🛋️ Um detalhe especial para o nosso sofá", price: 450 },
+  { order: 3, badge: "💝", title: "🛋️ Um detalhe especial para nosso lar", price: 450 },
   { order: 4, title: "🍳 Jogo de panelas premium", price: 370 },
   { order: 5, title: "🏨 Uma diária especial na Lua de Mel", price: 500 },
   { order: 6, title: "🛏️ Edredom + enxoval do casal", price: 380 },
-  { order: 7, badge: "⭐", title: "🍽️ Aparelho de jantar completo", price: 420 },
+  { order: 7, badge: "⭐", title: "🪴 Plantas e detalhes para nossa casa", price: 420 },
   { order: 8, title: "☕ Cafeteira para nossos cafés juntos", price: 250 },
-  { order: 9, title: "🧺 Nossa máquina de lavar", price: 430 },
+  { order: 9, title: "🧺 Kit de organização para nosso lar", price: 430 },
   { order: 10, title: "🍷 Jantar romântico dos recém-casados", price: 350 },
   { order: 11, title: "📺 Um novo capítulo para a nossa sala", price: 480 },
   { order: 12, title: "🍲 Panela de pressão elétrica", price: 350 },
-  { order: 13, badge: "💝", title: "🏠 Um toque especial para o nosso lar", price: 400 },
+  { order: 13, badge: "💝", title: "🏠 Arte e detalhes para nosso lar", price: 400 },
   { order: 14, title: "🍽️ Jogo de jantar para nossa casa", price: 230 },
   { order: 15, title: "🍖 Churrasqueira para nossa casa", price: 390 },
   { order: 16, title: "🧹 Aspirador de pó", price: 330 },
@@ -56,8 +56,8 @@ const giftCopy: GiftCopy[] = [
   { order: 18, title: "🛏️ Jogo de cama premium", price: 280 },
   { order: 19, title: "🪑 Mesa de jantar para a nossa casa", price: 400 },
   { order: 20, title: "🥂 Kit de taças para momentos especiais", price: 200 },
-  { order: 21, title: "❄️ Um novo conforto para a nossa cozinha", price: 450 },
-  { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 }, { order: 23, title: "🧪 Experiência de teste", price: 1 },
+  { order: 21, title: "🔥 Forno elétrico", price: 750 },
+  { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
 ];
 
 export function Gifts() {
@@ -164,7 +164,7 @@ export function Gifts() {
     <section id="presentes" className="bg-blush/50 py-24">
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
-          <p className="eyebrow">Lista de presentes</p>
+          <p className="font-serif text-5xl font-semibold uppercase tracking-[0.12em] text-foreground md:text-7xl">LISTA DE PRESENTES</p>
           <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">
             Celebre este novo começo com um presente especial
           </h2>
