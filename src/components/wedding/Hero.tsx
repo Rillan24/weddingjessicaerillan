@@ -74,8 +74,8 @@ export function Hero() {
         )}
 
         <a
-          href="https://wa.me/11925308573"
-          className="mt-12 inline-block border border-cream/70 px-9 py-3.5 text-[0.7rem] uppercase tracking-[0.28em] text-cream transition-colors hover:bg-cream hover:text-foreground"
+          href="https://wa.me/5511925308573?text=Oi%20J%C3%A9ssica%2C%20gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20em%20seu%20casamento%F0%9F%A5%B0"
+          className="glow-cta press mt-12 inline-flex items-center rounded-full border border-cream/80 bg-cream/10 px-9 py-3.5 text-[0.7rem] uppercase tracking-[0.28em] text-cream transition-colors hover:bg-cream hover:text-foreground"
         >
           Confirmar presença
         </a>
