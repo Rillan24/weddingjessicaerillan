@@ -8,6 +8,8 @@ import coupleBasket from "@/assets/couple-basket.jpg.asset.json";
 import coupleNight from "@/assets/couple-night.jpg.asset.json";
 
 
+
+
 const photos = [
   { src: assetUrl(brideLeaf.url), alt: "Jessica segurando uma folha de outono", chapter: "Um instante só nosso", title: "Leveza nos pequenos momentos", note: "Há beleza em tudo aquilo que vivemos sem pressa." },
   { src: assetUrl(coupleBalloon.url), alt: "Jessica e Rillan em frente ao balão colorido", chapter: "Capítulo 02", title: "Sonhos que ganharam céu", note: "Quando estamos juntos, qualquer horizonte parece possível." },
@@ -22,9 +24,13 @@ const photos = [
 ];
 
 
+
+
 function GalleryFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <figure className={"relative overflow-hidden rounded-[1.75rem] border border-white/15 bg-black/20 shadow-[0_28px_80px_rgba(0,0,0,0.22)] " + className}>{children}</figure>;
 }
+
+
 
 
 export function Gallery() {
@@ -38,6 +44,8 @@ export function Gallery() {
   const next = useCallback(() => { setIndex((currentIndex) => { setDirection("right"); return currentIndex === photos.length - 1 ? 0 : currentIndex + 1; }); }, []);
 
 
+
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsOpen(false);
@@ -49,11 +57,6 @@ export function Gallery() {
   }, [next, prev]);
 
 
-  useEffect(() => {
-    if (isOpen) return;
-    const timer = window.setInterval(next, 6500);
-    return () => window.clearInterval(timer);
-  }, [isOpen, next]);
 
 
   const handleTouchEnd = (endX: number | undefined) => {
@@ -63,6 +66,8 @@ export function Gallery() {
     if (Math.abs(delta) < 44) return;
     if (delta < 0) next(); else prev();
   };
+
+
 
 
   return (
