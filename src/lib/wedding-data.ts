@@ -19,16 +19,15 @@ export const wedding = {
     "https://www.google.com/maps/search/?api=1&query=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP",
   mapEmbedUrl:
     "https://www.google.com/maps?q=Rua+Dona+Ana+Neri%2C+721%2C+Cambuci%2C+S%C3%A3o+Paulo%2C+SP&output=embed",
-  dressCode: "Fique à vontade — preferencialmente, traje esporte fino.",
+  dressCode: "Fique à vontade para escolher seu melhor estilo, com a elegância que a ocasião merece.",
   pixKey: pixDetails.key,
   quote:
-    "Não importa onde estejamos no mundo, estou sempre em casa quando estou com você.",
+    "Assim, eles já não são dois, mas uma só carne. — Mateus 19:6",
 };
 
 export const timeline = [
   { time: "11h00", title: "Recepção dos convidados", text: "Chegada e acolhimento dos convidados." },
   { time: "12h00", title: "Cerimônia", text: "Celebração da nossa união." },
-  { time: "12h30", title: "Coquetel e fotos", text: "Coquetel, música e registro desse momento especial." },
   { time: "13h00", title: "Almoço", text: "Almoço servido no salão." },
 ];
 
@@ -43,11 +42,11 @@ export const faqs = [
   },
   {
     q: "Qual o traje?",
-    a: "Fique à vontade. Se preferir uma sugestão, indicamos traje esporte fino.",
+    a: "Fique à vontade para vestir o que faz você se sentir bem. Se desejar acompanhar o clima da celebração, escolha uma produção elegante e confortável, no seu próprio estilo.",
   },
   {
     q: "Posso postar fotos?",
-    a: "Sim! Use a hashtag #JessicaERillan. Só pedimos celulares guardados durante a cerimônia.",
+    a: "Sim! Será uma alegria ver esses registros. Compartilhe seus momentos com a hashtag #JessicaERillan.",
   },
 ];
 
