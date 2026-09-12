@@ -13,6 +13,12 @@ const photos = [
   { src: assetUrl(brideRing.url), alt: "Jessica mostrando a aliança com o buquê de rosas", chapter: "Capítulo 03", title: "O nosso sim", note: "Um detalhe delicado, uma promessa imensa e uma vida inteira pela frente." },
   { src: assetUrl(coupleBasket.url), alt: "Jessica e Rillan dentro do cesto do balão", chapter: "Capítulo 04", title: "A vida vista de cima", note: "Colecionando paisagens, risadas e histórias para lembrar." },
   { src: assetUrl(coupleNight.url), alt: "Jessica e Rillan juntos em uma noite especial", chapter: "Capítulo 05", title: "Até a noite fica mais bonita", note: "O melhor lugar continua sendo onde a gente está lado a lado." },
+  { src: assetUrl("WhatsApp Image 2026-09-12 at 01.40.52.jpeg"), alt: "Jessica e Rillan compartilhando um carinho nos trilhos", chapter: "Capítulo 06", title: "Um amor que encontra seu caminho", note: "Entre caminhos inesperados, sempre encontramos um ao outro." },
+  { src: assetUrl("WhatsApp Image 2026-09-12 at 01.46.51.jpeg"), alt: "Jessica e Rillan sorrindo juntos em um show", chapter: "Capítulo 07", title: "Celebrar a vida juntos", note: "Cada experiência se transforma em memória quando vivida a dois." },
+  { src: assetUrl("WhatsApp Image 2026-09-12 at 01.47.20.jpeg"), alt: "Jessica e Rillan em frente ao letreiro do Beto Carrero", chapter: "Capítulo 08", title: "Aventuras para guardar", note: "A nossa história também mora nas risadas e nas descobertas." },
+  { src: assetUrl("WhatsApp Image 2026-09-12 at 01.49.00.jpeg"), alt: "Jessica e Rillan sorrindo perto da árvore de Natal", chapter: "Capítulo 09", title: "O calor das nossas tradições", note: "Os encontros simples são os que ficam para sempre." },
+  { src: assetUrl("WhatsApp Image 2026-09-12 at 01.49.31.jpeg"), alt: "Jessica e Rillan sob os guarda-chuvas coloridos", chapter: "Capítulo 10", title: "Colorindo os nossos dias", note: "Mesmo nos dias comuns, encontramos motivos para sorrir." },
+
 ];
 
 function GalleryFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
