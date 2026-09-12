@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/dialog";
 
 
+
+
 type Gift = {
   id: string;
   title: string;
@@ -25,6 +27,8 @@ type Gift = {
   price: number | null;
   claimed_at: string | null;
 };
+
+
 
 
 type GiftCopy = {
@@ -35,24 +39,28 @@ type GiftCopy = {
 };
 
 
+
+
 const brl = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 
+
+
 const giftCopy: GiftCopy[] = [
-  { order: 1, badge: "⭐", title: "✈️ Uma experiência para a nossa Lua de Mel", price: 500 },
+  { order: 1, badge: "⭐", title: "🧳 Kit de viagem para a nossa nova jornada", price: 500 },
   { order: 2, title: "🍟 Air Fryer para nossa casa", price: 320 },
   { order: 3, badge: "💝", title: "🛋️ Um detalhe especial para nosso lar", price: 450 },
   { order: 4, title: "🍳 Jogo de panelas premium", price: 370 },
   { order: 5, title: "🏨 Uma diária especial na Lua de Mel", price: 500 },
-  { order: 6, title: "🛏️ Edredom + enxoval do casal", price: 380 },
+  { order: 6, title: "🛁 Enxoval premium para o nosso banheiro", price: 380 },
   { order: 7, badge: "⭐", title: "🪴 Plantas e detalhes para nossa casa", price: 420 },
   { order: 8, title: "☕ Cafeteira para nossos cafés juntos", price: 250 },
   { order: 9, title: "🧺 Kit de organização para nosso lar", price: 430 },
   { order: 10, title: "🍷 Jantar romântico dos recém-casados", price: 350 },
   { order: 11, title: "📺 Um novo capítulo para a nossa sala", price: 480 },
   { order: 12, title: "🍲 Panela de pressão elétrica", price: 350 },
-  { order: 13, badge: "💝", title: "🏠 Arte e detalhes para nosso lar", price: 400 },
+  { order: 13, badge: "💝", title: "🪞 Espelho especial para o nosso lar", price: 400 },
   { order: 14, title: "🍽️ Jogo de jantar para nossa casa", price: 230 },
   { order: 15, title: "🍖 Churrasqueira para nossa casa", price: 390 },
   { order: 16, title: "🧹 Aspirador de pó", price: 330 },
@@ -63,20 +71,22 @@ const giftCopy: GiftCopy[] = [
   { order: 21, title: "🔥 Forno elétrico", price: 750 },
   { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
   { order: 23, title: "🧪 Experiência de teste", price: 1 },
-  { order: 24, title: "✨ Experiência inesquecível para a nossa Lua de Mel", price: 1000 },
+  { order: 24, title: "🛏️ Cama e cabeceira para o nosso quarto", price: 1000 },
 ];
+
+
 
 
 const giftGroups = [
   {
     title: "Lua de mel e experiências",
     note: "Momentos pensados para celebrar a nossa nova etapa.",
-    orders: [1, 5, 10, 24],
+    orders: [1, 5, 10],
   },
   {
     title: "Nosso lar",
     note: "Detalhes que vão ganhar espaço na casa que estamos construindo.",
-    orders: [2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22],
+    orders: [2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 24],
   },
   {
     title: "Gestos especiais",
@@ -91,6 +101,8 @@ const giftGroups = [
 ];
 
 
+
+
 export function Gifts() {
   const [selected, setSelected] = useState<Gift | null>(null);
   const [name, setName] = useState("");
@@ -98,6 +110,8 @@ export function Gifts() {
   const [step, setStep] = useState<"details" | "pix">("details");
   const [pixFallback, setPixFallback] = useState(false);
   const [copied, setCopied] = useState(false);
+
+
 
 
   const { data: gifts = [], isLoading, isError, refetch } = useQuery({
@@ -114,6 +128,8 @@ export function Gifts() {
   });
 
 
+
+
   const storedGifts = Array.isArray(gifts) ? gifts : [];
   const visibleGifts: Gift[] = giftCopy.map((copy, index) => ({
     id: storedGifts[index]?.id ?? "display-" + copy.price + "-" + index,
@@ -122,6 +138,8 @@ export function Gifts() {
     price: copy.price,
     claimed_at: storedGifts[index]?.claimed_at ?? null,
   }));
+
+
 
 
   const checkout = useMutation({
@@ -153,6 +171,8 @@ export function Gifts() {
   });
 
 
+
+
   const resetDialog = () => {
     setSelected(null);
     setName("");
@@ -163,6 +183,8 @@ export function Gifts() {
   };
 
 
+
+
   const openGift = (gift: Gift) => {
     setSelected(gift);
     setName("");
@@ -171,6 +193,8 @@ export function Gifts() {
     setPixFallback(false);
     setCopied(false);
   };
+
+
 
 
   const continueToPayment = () => {
@@ -187,6 +211,8 @@ export function Gifts() {
   };
 
 
+
+
   const copyPix = async () => {
     try {
       await navigator.clipboard.writeText(pixDetails.key);
@@ -197,6 +223,8 @@ export function Gifts() {
       toast.error("Copie a chave PIX exibida na tela.");
     }
   };
+
+
 
 
   return (
@@ -211,6 +239,8 @@ export function Gifts() {
             Se desejar celebrar este novo capítulo conosco, escolha uma experiência que faça sentido para você. Cada presente será recebido com carinho e poderá ser feito via PIX ou cartão de crédito em até 4x, conforme as condições apresentadas pelo Mercado Pago.
           </p>
         </div>
+
+
 
 
         {isLoading ? (
@@ -272,6 +302,8 @@ export function Gifts() {
       </div>
 
 
+
+
       <Dialog open={!!selected} onOpenChange={(open) => !open && resetDialog()}>
         <DialogContent className="max-w-lg">
           {step === "details" && selected && (
@@ -293,6 +325,8 @@ export function Gifts() {
               </DialogFooter>
             </>
           )}
+
+
 
 
           {step === "pix" && selected && (
