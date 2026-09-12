@@ -8,7 +8,7 @@ const details = [
   { icon: MapPin, label: "Local", value: wedding.venueAddress },
   { icon: Clock, label: "Horário", value: wedding.dateLabel + ", às " + wedding.timeLabel },
   { icon: Shirt, label: "Traje", value: wedding.dressCode },
-  { icon: Car, label: "Estacionamento", value: "Informações a definir mais próximo do dia" },
+  { icon: Car, label: "Estacionamento", value: wedding.parkingInfo },
 ];
 
 export function Ceremony() {
@@ -55,7 +55,7 @@ export function Ceremony() {
                     <d.icon className="mt-1 size-4 shrink-0 text-sage-deep" />
                     <div className="min-w-0">
                       <p className="eyebrow">{d.label}</p>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d.value}</p>
+                      <p className="mt-1 text-base leading-relaxed text-muted-foreground">{d.value}</p>
                     </div>
                   </li>
                 ))}
@@ -103,7 +103,7 @@ export function Ceremony() {
                 <div className="surface press p-5">
                   <p className="eyebrow">{t.time}</p>
                   <h3 className="mt-1 font-serif text-2xl text-foreground">{t.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+                  <p className="mt-1 text-base leading-relaxed text-muted-foreground">{t.text}</p>
                 </div>
               </Reveal>
             ))}
