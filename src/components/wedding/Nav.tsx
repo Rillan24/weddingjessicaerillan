@@ -49,6 +49,7 @@ export function Nav() {
               href={l.href}
               className={cn(
                 "press rounded-full px-3 py-2 text-xs uppercase tracking-[0.16em]",
+                l.label === "Confirmar presença" && "glow-cta",
                 scrolled
                   ? "text-foreground/75 hover:bg-sage/40 hover:text-sage-deep"
                   : "text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] hover:bg-cream/15",
@@ -60,9 +61,9 @@ export function Nav() {
         </nav>
 
         <a
-          href="https://wa.me/11925308573"
+          href="https://wa.me/5511925308573?text=Oi%20J%C3%A9ssica%2C%20gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20em%20seu%20casamento%F0%9F%A5%B0"
           className={cn(
-            "press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
+            "glow-cta press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.18em] md:hidden",
             scrolled
               ? "bg-sage-deep text-primary-foreground"
               : "border border-cream/70 text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]",
