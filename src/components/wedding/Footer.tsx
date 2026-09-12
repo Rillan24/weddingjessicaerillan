@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { wedding } from "@/lib/wedding-data";
 import { Reveal } from "./Reveal";
 
@@ -14,12 +13,6 @@ export function Footer() {
         <p className="mt-6 font-serif text-xl italic text-cream">
           Com amor, {wedding.brideFirst} e {wedding.groomFirst}
         </p>
-        <Link
-          to="/admin"
-          className="mt-10 inline-flex min-h-11 items-center justify-center rounded-full px-4 text-[0.6rem] uppercase tracking-[0.2em] text-cream/50 transition-colors hover:text-cream"
-        >
-          Área dos noivos
-        </Link>
       </Reveal>
     </footer>
   );
