@@ -60,6 +60,24 @@ const giftCopy: GiftCopy[] = [
   { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
 ];
 
+const giftGroups = [
+  {
+    title: "Lua de mel e experiências",
+    note: "Momentos pensados para celebrar a nossa nova etapa.",
+    orders: [1, 5, 10],
+  },
+  {
+    title: "Nosso lar",
+    note: "Detalhes que vão ganhar espaço na casa que estamos construindo.",
+    orders: [2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22],
+  },
+  {
+    title: "Gestos especiais",
+    note: "Escolhas cheias de significado para guardar com carinho.",
+    orders: [17, 20],
+  },
+];
+
 export function Gifts() {
   const [selected, setSelected] = useState<Gift | null>(null);
   const [name, setName] = useState("");
@@ -68,7 +86,7 @@ export function Gifts() {
   const [pixFallback, setPixFallback] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const { data: gifts = [], isLoading } = useQuery({
+  const { data: gifts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ["gifts"],
     refetchInterval: 15000,
     queryFn: async () => {
@@ -169,38 +187,65 @@ export function Gifts() {
             Celebre este novo começo com um presente especial
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-relaxed text-foreground/80 md:text-lg">
-            Se quiser celebrar conosco de uma forma especial, escolha uma das experiências abaixo. Você pode presentear via PIX ou cartão de crédito em até 4x, conforme as opções exibidas no checkout.
+            Se desejar celebrar este novo capítulo conosco, escolha uma experiência que faça sentido para você. Cada presente será recebido com carinho e poderá ser feito via PIX ou cartão de crédito em até 4x, conforme as condições apresentadas pelo Mercado Pago.
           </p>
         </div>
 
         {isLoading ? (
-          <p className="mt-14 text-center text-sm text-muted-foreground">Carregando presentes…</p>
-        ) : (
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleGifts.map((gift, index) => {
-              const copy = giftCopy[index];
-              if (!copy) return null;
-              return (
-                <li key={gift.id} className="press flex flex-col rounded-[1.5rem] border border-border/70 bg-background p-7 shadow-[0_20px_55px_-38px_rgba(30,47,38,0.7)]">
-                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    <span>{String(copy.order).padStart(2, "0")}</span>
-                    {copy.badge && <span className="text-base tracking-normal">{copy.badge}</span>}
-                  </div>
-                  <h3 className="mt-5 font-serif text-2xl leading-tight text-foreground">{copy.title}</h3>
-                  <p className="mt-4 font-serif text-xl text-sage-deep">{brl(copy.price)}</p>
-                  <div className="mt-6">
-                    {gift.claimed_at ? (
-                      <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Já presenteado</p>
-                    ) : (
-                      <button type="button" onClick={() => openGift({ ...gift, title: copy.title, price: copy.price })} className="press min-h-11 rounded-full border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep hover:bg-sage-deep hover:text-primary-foreground">
-                        Escolher esta opção
-                      </button>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
+          <ul aria-label="Carregando presentes" className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }, (_, index) => (
+              <li key={index} aria-hidden="true" className="animate-pulse rounded-[1.5rem] border border-border/70 bg-background p-7">
+                <div className="h-3 w-10 rounded-full bg-muted" />
+                <div className="mt-7 h-8 w-4/5 rounded bg-muted" />
+                <div className="mt-3 h-8 w-1/3 rounded bg-muted" />
+                <div className="mt-8 h-11 w-40 rounded-full bg-muted" />
+              </li>
+            ))}
           </ul>
+        ) : isError ? (
+          <div role="alert" className="mx-auto mt-14 max-w-xl rounded-2xl border border-border bg-background p-8 text-center shadow-sm">
+            <p className="font-serif text-2xl text-foreground">A lista está fazendo uma breve pausa.</p>
+            <p className="mt-3 text-base leading-relaxed text-muted-foreground">Não conseguimos carregar os presentes agora. Tente novamente em instantes.</p>
+            <button type="button" onClick={() => void refetch()} className="press mt-6 min-h-11 rounded-full bg-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-primary-foreground hover:bg-sage-deep/90">Tentar novamente</button>
+          </div>
+        ) : (
+          <div className="mt-14 space-y-12">
+            {giftGroups.map((group) => (
+              <div key={group.title}>
+                <div className="mb-5 border-l-2 border-gold pl-4">
+                  <h3 className="font-serif text-3xl text-foreground">{group.title}</h3>
+                  <p className="mt-1 text-base leading-relaxed text-muted-foreground">{group.note}</p>
+                </div>
+                <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.orders.map((order) => {
+                    const index = giftCopy.findIndex((item) => item.order === order);
+                    const copy = giftCopy[index];
+                    const gift = visibleGifts[index];
+                    if (!copy || !gift) return null;
+                    return (
+                      <li key={gift.id} className="press flex flex-col rounded-[1.5rem] border border-border/70 bg-background p-7 shadow-[0_20px_55px_-38px_rgba(30,47,38,0.7)]">
+                        <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                          <span>{String(copy.order).padStart(2, "0")}</span>
+                          {copy.badge && <span className="text-base tracking-normal">{copy.badge}</span>}
+                        </div>
+                        <h4 className="mt-5 font-serif text-2xl leading-tight text-foreground">{copy.title}</h4>
+                        <p className="mt-4 font-serif text-xl text-sage-deep">{brl(copy.price)}</p>
+                        <div className="mt-6">
+                          {gift.claimed_at ? (
+                            <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Já presenteado</p>
+                          ) : (
+                            <button type="button" aria-label={"Escolher " + copy.title} onClick={() => openGift({ ...gift, title: copy.title, price: copy.price })} className="press min-h-11 rounded-full border border-sage-deep px-6 py-2.5 text-[0.7rem] uppercase tracking-[0.2em] text-sage-deep hover:bg-sage-deep hover:text-primary-foreground">
+                              Escolher presente
+                            </button>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -211,7 +256,7 @@ export function Gifts() {
               <DialogHeader>
                 <DialogTitle className="font-serif text-2xl">Um presente com carinho</DialogTitle>
                 <DialogDescription>
-                  Informe seu nome e telefone para abrir o pagamento seguro. Você pode escolher PIX ou cartão de crédito, com parcelamento em até 4x.
+                  Informe um nome e um telefone para identificar o presente. Em seguida, você será direcionado ao ambiente seguro do Mercado Pago, onde poderá escolher PIX ou cartão de crédito em até 4x, conforme as condições apresentadas.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
