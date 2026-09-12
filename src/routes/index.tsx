@@ -8,7 +8,6 @@ import { Story } from "@/components/wedding/Story";
 import { Ceremony } from "@/components/wedding/Ceremony";
 import { Gallery } from "@/components/wedding/Gallery";
 import { Gifts } from "@/components/wedding/Gifts";
-
 import { Faq } from "@/components/wedding/Faq";
 import { Footer } from "@/components/wedding/Footer";
 
@@ -40,7 +39,7 @@ function CinematicIntro() {
     const timeout = window.setTimeout(() => {
       setIsLeaving(true);
       document.body.style.overflow = previousOverflow;
-    }, 1500);
+    }, 2300);
 
     return () => {
       window.clearTimeout(timeout);
@@ -50,12 +49,15 @@ function CinematicIntro() {
 
   return (
     <div
-      className={`cinematic-intro ${isLeaving ? "is-leaving" : ""}`}
+      className={"cinematic-intro " + (isLeaving ? "is-leaving" : "")}
       aria-hidden={isLeaving}
     >
       <div className="cinematic-intro-vignette" />
       <div className="cinematic-intro-orbit cinematic-intro-orbit-a" />
       <div className="cinematic-intro-orbit cinematic-intro-orbit-b" />
+      <div className="cinematic-intro-heart" aria-hidden="true">
+        <span>♡</span>
+      </div>
       <div className="cinematic-intro-grain" />
       <div className="cinematic-intro-monogram" aria-label="J e R">
         <span>J</span>
@@ -78,7 +80,7 @@ function ScrollToTopOnLoad() {
         window.history.replaceState(
           null,
           "",
-          `${window.location.pathname}${window.location.search}`,
+          window.location.pathname + window.location.search,
         );
       }
     };
@@ -107,7 +109,6 @@ function Index() {
         <Ceremony />
         <Gallery />
         <Gifts />
-        
         <Faq />
         <Footer />
       </main>
