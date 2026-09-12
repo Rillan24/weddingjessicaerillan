@@ -20,6 +20,10 @@ import {
 
 
 
+
+
+
+
 type Gift = {
   id: string;
   title: string;
@@ -27,6 +31,10 @@ type Gift = {
   price: number | null;
   claimed_at: string | null;
 };
+
+
+
+
 
 
 
@@ -41,8 +49,16 @@ type GiftCopy = {
 
 
 
+
+
+
+
 const brl = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+
+
+
 
 
 
@@ -70,9 +86,12 @@ const giftCopy: GiftCopy[] = [
   { order: 20, title: "🥂 Kit de taças para momentos especiais", price: 200 },
   { order: 21, title: "🔥 Forno elétrico", price: 750 },
   { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
-  { order: 23, title: "🧪 Experiência de teste", price: 1 },
   { order: 24, title: "🛏️ Cama e cabeceira para o nosso quarto", price: 1000 },
 ];
+
+
+
+
 
 
 
@@ -93,12 +112,11 @@ const giftGroups = [
     note: "Escolhas cheias de significado para guardar com carinho.",
     orders: [17, 20],
   },
-  {
-    title: "Experiência de teste",
-    note: "Use esta opção apenas para validar o fluxo de pagamento.",
-    orders: [23],
-  },
 ];
+
+
+
+
 
 
 
@@ -114,6 +132,10 @@ export function Gifts() {
 
 
 
+
+
+
+
   const { data: gifts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ["gifts"],
     refetchInterval: 15000,
@@ -121,11 +143,16 @@ export function Gifts() {
       const { data, error } = await supabase
         .from("gifts")
         .select("id, title, description, price, claimed_at")
+        .neq("sort_order", 23)
         .order("sort_order", { ascending: true });
       if (error) throw error;
       return data as Gift[];
     },
   });
+
+
+
+
 
 
 
@@ -138,6 +165,10 @@ export function Gifts() {
     price: copy.price,
     claimed_at: storedGifts[index]?.claimed_at ?? null,
   }));
+
+
+
+
 
 
 
@@ -173,6 +204,10 @@ export function Gifts() {
 
 
 
+
+
+
+
   const resetDialog = () => {
     setSelected(null);
     setName("");
@@ -185,6 +220,10 @@ export function Gifts() {
 
 
 
+
+
+
+
   const openGift = (gift: Gift) => {
     setSelected(gift);
     setName("");
@@ -193,6 +232,10 @@ export function Gifts() {
     setPixFallback(false);
     setCopied(false);
   };
+
+
+
+
 
 
 
@@ -213,6 +256,10 @@ export function Gifts() {
 
 
 
+
+
+
+
   const copyPix = async () => {
     try {
       await navigator.clipboard.writeText(pixDetails.key);
@@ -223,6 +270,10 @@ export function Gifts() {
       toast.error("Copie a chave PIX exibida na tela.");
     }
   };
+
+
+
+
 
 
 
@@ -239,6 +290,10 @@ export function Gifts() {
             Se desejar celebrar este novo capítulo conosco, escolha uma experiência que faça sentido para você. Cada presente será recebido com carinho e poderá ser feito via PIX ou cartão de crédito em até 4x, conforme as condições apresentadas pelo Mercado Pago.
           </p>
         </div>
+
+
+
+
 
 
 
@@ -304,6 +359,10 @@ export function Gifts() {
 
 
 
+
+
+
+
       <Dialog open={!!selected} onOpenChange={(open) => !open && resetDialog()}>
         <DialogContent className="max-w-lg">
           {step === "details" && selected && (
@@ -325,6 +384,10 @@ export function Gifts() {
               </DialogFooter>
             </>
           )}
+
+
+
+
 
 
 
