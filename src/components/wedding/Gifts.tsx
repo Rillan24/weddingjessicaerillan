@@ -58,7 +58,6 @@ const giftCopy: GiftCopy[] = [
   { order: 20, title: "🥂 Kit de taças para momentos especiais", price: 200 },
   { order: 21, title: "🔥 Forno elétrico", price: 750 },
   { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
-  { order: 23, badge: "🧪", title: "🧪 Experiência de teste", price: 1 },
 ];
 
 export function Gifts() {
