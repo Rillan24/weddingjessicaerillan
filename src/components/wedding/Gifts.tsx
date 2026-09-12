@@ -1,3 +1,632 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Copy, Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { createGiftCheckout } from "@/lib/mercadopago.functions";
+import { pixDetails } from "@/lib/wedding-data";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { PixQr } from "./PixQr";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+
+type Gift = {
+  id: string;
+  title: string;
+  description: string | null;
+  price: number | null;
+  claimed_at: string | null;
+};
+
+
+type GiftCopy = {
+  order: number;
+  badge?: string;
+  title: string;
+  price: number;
+};
+
+
+const brl = (value: number) =>
+  value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+
+const giftCopy: GiftCopy[] = [
+  { order: 1, badge: "⭐", title: "✈️ Uma experiência para a nossa Lua de Mel", price: 500 },
+  { order: 2, title: "🍟 Air Fryer para nossa casa", price: 320 },
+  { order: 3, badge: "💝", title: "🛋️ Um detalhe especial para nosso lar", price: 450 },
+  { order: 4, title: "🍳 Jogo de panelas premium", price: 370 },
+  { order: 5, title: "🏨 Uma diária especial na Lua de Mel", price: 500 },
+  { order: 6, title: "🛏️ Edredom + enxoval do casal", price: 380 },
+  { order: 7, badge: "⭐", title: "🪴 Plantas e detalhes para nossa casa", price: 420 },
+  { order: 8, title: "☕ Cafeteira para nossos cafés juntos", price: 250 },
+  { order: 9, title: "🧺 Kit de organização para nosso lar", price: 430 },
+  { order: 10, title: "🍷 Jantar romântico dos recém-casados", price: 350 },
+  { order: 11, title: "📺 Um novo capítulo para a nossa sala", price: 480 },
+  { order: 12, title: "🍲 Panela de pressão elétrica", price: 350 },
+  { order: 13, badge: "💝", title: "🏠 Arte e detalhes para nosso lar", price: 400 },
+  { order: 14, title: "🍽️ Jogo de jantar para nossa casa", price: 230 },
+  { order: 15, title: "🍖 Churrasqueira para nossa casa", price: 390 },
+  { order: 16, title: "🧹 Aspirador de pó", price: 330 },
+  { order: 17, badge: "⭐", title: "❤️ Presente especial para os noivos", price: 500 },
+  { order: 18, title: "🛏️ Jogo de cama premium", price: 280 },
+  { order: 19, title: "🪑 Mesa de jantar para a nossa casa", price: 400 },
+  { order: 20, title: "🥂 Kit de taças para momentos especiais", price: 200 },
+  { order: 21, title: "🔥 Forno elétrico", price: 750 },
+  { order: 22, title: "🥤 Liquidificador para nossa cozinha", price: 300 },
+  { order: 23, title: "🧪 Experiência de teste", price: 1 },
+  { order: 24, title: "✨ Experiência inesquecível para a nossa Lua de Mel", price: 1000 },
+];
+
+
+const giftGroups = [
+  {
+    title: "Lua de mel e experiências",
+    note: "Momentos pensados para celebrar a nossa nova etapa.",
+    orders: [1, 5, 10, 24],
+  },
+  {
+    title: "Nosso lar",
+    note: "Detalhes que vão ganhar espaço na casa que estamos construindo.",
+    orders: [2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22],
+  },
+  {
+    title: "Gestos especiais",
+    note: "Escolhas cheias de significado para guardar com carinho.",
+    orders: [17, 20],
+  },
+  {
+    title: "Experiência de teste",
+    note: "Use esta opção apenas para validar o fluxo de pagamento.",
+    orders: [23],
+  },
+];
+
+
+export function Gifts() {
+  const [selected, setSelected] = useState<Gift | null>(null);
+  const [name, setName] = useState("");
+  const [giverPhone, setGiverPhone] = useState("");
+  const [step, setStep] = useState<"details" | "pix">("details");
+  const [pixFallback, setPixFallback] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+
+  const { data: gifts = [], isLoading, isError, refetch } = useQuery({
+    queryKey: ["gifts"],
+    refetchInterval: 15000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("gifts")
+        .select("id, title, description, price, claimed_at")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data as Gift[];
+    },
+  });
+
+
+  const storedGifts = Array.isArray(gifts) ? gifts : [];
+  const visibleGifts: Gift[] = giftCopy.map((copy, index) => ({
+    id: storedGifts[index]?.id ?? "display-" + copy.price + "-" + index,
+    title: copy.title,
+    description: null,
+    price: copy.price,
+    claimed_at: storedGifts[index]?.claimed_at ?? null,
+  }));
+
+
+  const checkout = useMutation({
+    mutationFn: async ({ giftId, buyerName, phone }: { giftId: string; buyerName: string; phone: string }) => {
+      const result = await createGiftCheckout({
+        data: {
+          giftId,
+          name: buyerName.trim(),
+          phone: phone.trim(),
+          origin: window.location.origin,
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
