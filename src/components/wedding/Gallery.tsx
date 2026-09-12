@@ -7,6 +7,7 @@ import brideLeaf from "@/assets/bride-leaf.jpg.asset.json";
 import coupleBasket from "@/assets/couple-basket.jpg.asset.json";
 import coupleNight from "@/assets/couple-night.jpg.asset.json";
 
+
 const photos = [
   { src: assetUrl(brideLeaf.url), alt: "Jessica segurando uma folha de outono", chapter: "Um instante só nosso", title: "Leveza nos pequenos momentos", note: "Há beleza em tudo aquilo que vivemos sem pressa." },
   { src: assetUrl(coupleBalloon.url), alt: "Jessica e Rillan em frente ao balão colorido", chapter: "Capítulo 02", title: "Sonhos que ganharam céu", note: "Quando estamos juntos, qualquer horizonte parece possível." },
@@ -20,9 +21,11 @@ const photos = [
   { src: assetUrl("WhatsApp Image 2026-09-12 at 01.49.31.jpeg"), alt: "Jessica e Rillan sob os guarda-chuvas coloridos", chapter: "Capítulo 10", title: "Colorindo os nossos dias", note: "Mesmo nos dias comuns, encontramos motivos para sorrir." },
 ];
 
+
 function GalleryFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <figure className={"relative overflow-hidden rounded-[1.75rem] border border-white/15 bg-black/20 shadow-[0_28px_80px_rgba(0,0,0,0.22)] " + className}>{children}</figure>;
 }
+
 
 export function Gallery() {
   const [index, setIndex] = useState(0);
@@ -34,6 +37,7 @@ export function Gallery() {
   const prev = useCallback(() => { setIndex((currentIndex) => { setDirection("left"); return currentIndex === 0 ? photos.length - 1 : currentIndex - 1; }); }, []);
   const next = useCallback(() => { setIndex((currentIndex) => { setDirection("right"); return currentIndex === photos.length - 1 ? 0 : currentIndex + 1; }); }, []);
 
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsOpen(false);
@@ -44,11 +48,13 @@ export function Gallery() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [next, prev]);
 
+
   useEffect(() => {
     if (isOpen) return;
     const timer = window.setInterval(next, 6500);
     return () => window.clearInterval(timer);
   }, [isOpen, next]);
+
 
   const handleTouchEnd = (endX: number | undefined) => {
     if (touchStartX.current === null || endX === undefined) return;
@@ -58,6 +64,7 @@ export function Gallery() {
     if (delta < 0) next(); else prev();
   };
 
+
   return (
     <section id="galeria" className="bg-background py-24 md:py-32">
       <style>{"@keyframes gallery-cinematic-in-right { from { opacity: 0; transform: scale(1.045) translateX(2.5%); } to { opacity: 1; transform: scale(1) translateX(0); } } @keyframes gallery-cinematic-in-left { from { opacity: 0; transform: scale(1.045) translateX(-2.5%); } to { opacity: 1; transform: scale(1) translateX(0); } } @keyframes gallery-glow { 0%, 100% { opacity: .3; transform: scale(1); } 50% { opacity: .58; transform: scale(1.08); }} @media (prefers-reduced-motion: reduce) { .gallery-cinematic-image { animation: none !important; } }"}</style>
@@ -65,7 +72,7 @@ export function Gallery() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow">Galeria</p>
           <h2 className="mt-4 font-serif text-4xl text-foreground md:text-5xl">Nossos momentos preferidos</h2>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">Uma pequena coleção de instantes que continuam passando dentro da gente.</p>
+          <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">Uma seleção de memórias que guardamos com carinho e que celebram o caminho do nosso amor até aqui.</p>
         </div>
         <div className="relative mx-auto mt-12 max-w-5xl">
           <div className="pointer-events-none absolute -left-8 top-12 h-40 w-40 rounded-full bg-gold/20 blur-3xl" style={{ animation: "gallery-glow 7s ease-in-out infinite" }} />
