@@ -56,5 +56,5 @@ export const navLinks = [
   { href: "#programacao", label: "Programação" },
   { href: "#galeria", label: "Galeria" },
   { href: "#presentes", label: "Presentes" },
-  { href: "https://wa.me/11925308573", label: "Confirmar presença" },
+  { href: "https://wa.me/5511925308573?text=Oi%20J%C3%A9ssica%2C%20gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20em%20seu%20casamento%F0%9F%A5%B0", label: "Confirmar presença" },
 ];
